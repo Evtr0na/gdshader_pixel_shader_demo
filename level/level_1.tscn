@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://b7h8g1lgtumsl"]
+
+[ext_resource type="Script" uid="uid://cnqoxvquf33sr" path="res://script/camera_1.gd" id="1_omx5w"]
+[ext_resource type="Shader" uid="uid://bjh6amcbnupb7" path="res://level/ScreenQuad_1.gdshader" id="2_lx8gb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dkt7w"]
+render_priority = 0
+shader = ExtResource("2_lx8gb")
+shader_parameter/offest_1 = 2.0
+shader_parameter/offest_2 = 2.0
+shader_parameter/offest_3 = 0.0
+shader_parameter/offest_4 = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_32d3c"]
+material = SubResource("ShaderMaterial_dkt7w")
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4s0vq"]
+energy_multiplier = 0.96
+
+[sub_resource type="Sky" id="Sky_dlmxr"]
+sky_material = SubResource("ProceduralSkyMaterial_4s0vq")
+
+[sub_resource type="Environment" id="Environment_32d3c"]
+background_mode = 2
+sky = SubResource("Sky_dlmxr")
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_dkt7w"]
+
+[sub_resource type="Compositor" id="Compositor_n53y0"]
+
+[node name="Level" type="Node3D" unique_id=1244109957]
+
+[node name="camera_1" type="Node3D" parent="." unique_id=684451472]
+script = ExtResource("1_omx5w")
+look_speed = 0.005
+speed_walk = 0.06
+
+[node name="Camera3D" type="Camera3D" parent="camera_1" unique_id=1918094212]
+
+[node name="ScreenQuad_1" type="MeshInstance3D" parent="camera_1" unique_id=1526381592]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.29273817)
+layers = 524288
+mesh = SubResource("QuadMesh_32d3c")
+
+[node name="Scene" type="Node3D" parent="." unique_id=1561688723]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Scene" unique_id=806168966]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0052308, 0, -2.115954)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Scene/CSGBox3D" unique_id=1989814677]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3.1606216)
+radius = 1.0
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Scene" unique_id=1960208445]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.29112, 0, -2.3369415)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Scene" unique_id=1396065798]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2095482, 0.97140634, -2.3369415)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1934197441]
+environment = SubResource("Environment_32d3c")
+camera_attributes = SubResource("CameraAttributesPractical_dkt7w")
+compositor = SubResource("Compositor_n53y0")
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=186507315]
+transform = Transform3D(0.15295887, -0.41577426, 0.8965129, 0, 0.90718824, 0.4207251, -0.9882326, -0.06435364, 0.13876247, 1.9393499, 2.6040645, -2.7699573)
+light_energy = 0.684
+sky_mode = 1
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1575126849]
+transform = Transform3D(-0.20811895, -0.8470626, 0.4890517, 2.7805946e-08, 0.49999994, 0.86602545, -0.9781036, 0.18023625, -0.10405946, 0.0047183037, 2.1325583, -6.605591)
+visible = false
+shadow_enabled = true

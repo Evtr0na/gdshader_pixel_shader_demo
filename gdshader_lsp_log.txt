@@ -1,0 +1,16 @@
+[2026-09-03 13:58:04.700] [T:31436] [info] [gdshader_lsp::Logger::init] [logger.hpp:67] Logging system initialized. Async: Enabled. File log: gdshader_lsp_log.txt
+[2026-09-03 13:58:04.700] [T:31436] [info] [main] [main.cpp:41] Starting gdshader lsp via STDIO.
+[2026-09-03 13:58:04.700] [T:31436] [info] [gdshader_lsp::GdShaderServer::registerHandlers::<lambda_1>::operator ()] [gdshader_server.cpp:64] Project Root set to: D:/2zhuomian/Projects/GameDev/Active/pixel_shader_demo from recevied path D:/2zhuomian/Projects/GameDev/Active/pixel_shader_demo.
+[2026-09-03 13:58:04.705] [T:25992] [error] [gdshader_lsp::SemanticAnalyzer::registerGlobalFunctions::<lambda_2>::operator ()] [semantic_analyzer.cpp:97] Triggered [argType->kind == TypeKind::UNKNOWN]: Function registering with unkwown argument type samplerExternalOES
+[2026-09-03 14:01:36.900] [T:31224] [info] [gdshader_lsp::Logger::init] [logger.hpp:67] Logging system initialized. Async: Enabled. File log: gdshader_lsp_log.txt
+[2026-09-03 14:01:36.900] [T:31224] [info] [main] [main.cpp:41] Starting gdshader lsp via STDIO.
+[2026-09-03 14:01:36.900] [T:31224] [info] [gdshader_lsp::GdShaderServer::registerHandlers::<lambda_1>::operator ()] [gdshader_server.cpp:64] Project Root set to: D:/2zhuomian/Projects/GameDev/Active/pixel_shader_demo from recevied path D:/2zhuomian/Projects/GameDev/Active/pixel_shader_demo.
+[2026-09-03 14:01:36.922] [T:6212] [error] [gdshader_lsp::SemanticAnalyzer::registerGlobalFunctions::<lambda_2>::operator ()] [semantic_analyzer.cpp:97] Triggered [argType->kind == TypeKind::UNKNOWN]: Function registering with unkwown argument type samplerExternalOES
+[2026-09-03 14:04:01.009] [T:31060] [info] [gdshader_lsp::Logger::init] [logger.hpp:67] Logging system initialized. Async: Enabled. File log: gdshader_lsp_log.txt
+[2026-09-03 14:04:01.009] [T:31060] [info] [main] [main.cpp:41] Starting gdshader lsp via STDIO.
+[2026-09-03 14:04:01.010] [T:31060] [info] [gdshader_lsp::GdShaderServer::registerHandlers::<lambda_1>::operator ()] [gdshader_server.cpp:64] Project Root set to: D:/2zhuomian/Projects/GameDev/Active/pixel_shader_demo from recevied path D:/2zhuomian/Projects/GameDev/Active/pixel_shader_demo.
+[2026-09-03 14:04:01.033] [T:12868] [error] [gdshader_lsp::SemanticAnalyzer::registerGlobalFunctions::<lambda_2>::operator ()] [semantic_analyzer.cpp:97] Triggered [argType->kind == TypeKind::UNKNOWN]: Function registering with unkwown argument type samplerExternalOES
+[2026-09-03 14:08:47.104] [T:3236] [info] [gdshader_lsp::Logger::init] [logger.hpp:67] Logging system initialized. Async: Enabled. File log: gdshader_lsp_log.txt
+[2026-09-03 14:08:47.104] [T:3236] [info] [main] [main.cpp:41] Starting gdshader lsp via STDIO.
+[2026-09-03 14:08:47.105] [T:3236] [info] [gdshader_lsp::GdShaderServer::registerHandlers::<lambda_1>::operator ()] [gdshader_server.cpp:64] Project Root set to: D:/2zhuomian/Projects/GameDev/Active/pixel_shader_demo from recevied path D:/2zhuomian/Projects/GameDev/Active/pixel_shader_demo.
+[2026-09-03 14:08:47.125] [T:30164] [error] [gdshader_lsp::SemanticAnalyzer::registerGlobalFunctions::<lambda_2>::operator ()] [semantic_analyzer.cpp:97] Triggered [argType->kind == TypeKind::UNKNOWN]: Function registering with unkwown argument type samplerExternalOES

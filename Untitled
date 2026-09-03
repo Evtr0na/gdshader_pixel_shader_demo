@@ -1,0 +1,12 @@
+
+Client gdscript quit with exit code 1 and signal 0. Check log for errors: C:/Users/SDD/AppData/Local/nvim-data/lsp.log
+Error in InsertEnter Autocommands for "*":
+Lua callback: ...m-data/lazy/blink.cmp/lua/blink/cmp/sources/lib/init.lua:117: Requested provider "gdshader" has not been configured. Available providers: 
+stack traceback:
+	[C]: in function 'assert'
+	...m-data/lazy/blink.cmp/lua/blink/cmp/sources/lib/init.lua:117: in function 'get_provider_by_id'
+	...m-data/lazy/blink.cmp/lua/blink/cmp/sources/lib/init.lua:103: in function 'get_enabled_providers'
+	...m-data/lazy/blink.cmp/lua/blink/cmp/sources/lib/init.lua:142: in function 'get_trigger_characters'
+	...lazy/blink.cmp/lua/blink/cmp/completion/trigger/init.lua:192: in function 'is_trigger_character'
+	...lazy/blink.cmp/lua/blink/cmp/completion/trigger/init.lua:99: in function 'on_cursor_moved'
+	...-data/lazy/blink.cmp/lua/blink/cmp/lib/buffer_events.lua:124: in function <...-data/lazy/blink.cmp/lua/blink/cmp/lib/buffer_events.lua:88>
