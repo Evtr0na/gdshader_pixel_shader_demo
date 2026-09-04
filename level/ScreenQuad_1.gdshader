@@ -7,6 +7,7 @@ cull_disabled,
 depth_draw_never,
 depth_test_disabled;
 
+
 uniform sampler2D
 screen_texture:hint_screen_texture,
 repeat_enable,
@@ -17,12 +18,10 @@ depth_texture:hint_depth_texture,
 repeat_disable,
 filter_nearest
 ;
-
 uniform float offest_1;
 uniform float offest_2;
 uniform float offest_3;
 uniform float offest_4;
-
 
 void vertex() {
     
@@ -39,6 +38,8 @@ void vertex() {
     // );
     
 }
+
+
 
 void fragment() {
     float depth = texture(depth_texture, SCREEN_UV).;
