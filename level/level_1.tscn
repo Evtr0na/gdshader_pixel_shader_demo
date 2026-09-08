@@ -3,16 +3,12 @@
 [ext_resource type="Script" uid="uid://cnqoxvquf33sr" path="res://script/camera_1.gd" id="1_omx5w"]
 [ext_resource type="Shader" uid="uid://bjh6amcbnupb7" path="res://level/ScreenQuad_1.gdshader" id="2_lx8gb"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dkt7w"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lx8gb"]
 render_priority = 0
 shader = ExtResource("2_lx8gb")
-shader_parameter/offest_1 = 2.0
-shader_parameter/offest_2 = 2.0
-shader_parameter/offest_3 = 0.0
-shader_parameter/offest_4 = 0.0
 
-[sub_resource type="QuadMesh" id="QuadMesh_32d3c"]
-material = SubResource("ShaderMaterial_dkt7w")
+[sub_resource type="SphereMesh" id="SphereMesh_moo38"]
+material = SubResource("ShaderMaterial_lx8gb")
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4s0vq"]
 energy_multiplier = 0.96
@@ -38,9 +34,8 @@ speed_walk = 0.06
 [node name="Camera3D" type="Camera3D" parent="camera_1" unique_id=1918094212]
 
 [node name="ScreenQuad_1" type="MeshInstance3D" parent="camera_1" unique_id=1526381592]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.29273817)
 layers = 524288
-mesh = SubResource("QuadMesh_32d3c")
+mesh = SubResource("SphereMesh_moo38")
 
 [node name="Scene" type="Node3D" parent="." unique_id=1561688723]
 
@@ -71,3 +66,35 @@ sky_mode = 1
 transform = Transform3D(-0.20811895, -0.8470626, 0.4890517, 2.7805946e-08, 0.49999994, 0.86602545, -0.9781036, 0.18023625, -0.10405946, 0.0047183037, 2.1325583, -6.605591)
 visible = false
 shadow_enabled = true
+
+[node name="ShadowCapture" type="Node3D" parent="." unique_id=287147807]
+
+[node name="PX" type="SubViewport" parent="ShadowCapture" unique_id=781544477]
+size = Vector2i(64, 64)
+
+[node name="Camera3D" type="Camera3D" parent="ShadowCapture/PX" unique_id=78995290]
+
+[node name="NX" type="SubViewport" parent="ShadowCapture" unique_id=360106464]
+size = Vector2i(64, 64)
+
+[node name="Camera3D" type="Camera3D" parent="ShadowCapture/NX" unique_id=619034066]
+
+[node name="PY" type="SubViewport" parent="ShadowCapture" unique_id=1410080591]
+size = Vector2i(64, 64)
+
+[node name="Camera3D" type="Camera3D" parent="ShadowCapture/PY" unique_id=1584479509]
+
+[node name="NY" type="SubViewport" parent="ShadowCapture" unique_id=974050060]
+size = Vector2i(64, 64)
+
+[node name="Camera3D" type="Camera3D" parent="ShadowCapture/NY" unique_id=513306781]
+
+[node name="PZ" type="SubViewport" parent="ShadowCapture" unique_id=1933347115]
+size = Vector2i(64, 64)
+
+[node name="Camera3D" type="Camera3D" parent="ShadowCapture/PZ" unique_id=1543887653]
+
+[node name="NZ" type="SubViewport" parent="ShadowCapture" unique_id=1244195598]
+size = Vector2i(64, 64)
+
+[node name="Camera3D" type="Camera3D" parent="ShadowCapture/NZ" unique_id=763976329]
