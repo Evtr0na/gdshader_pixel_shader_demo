@@ -6,6 +6,10 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lx8gb"]
 render_priority = 0
 shader = ExtResource("2_lx8gb")
+shader_parameter/offest_1 = 0.23
+shader_parameter/offest_2 = 1.16
+shader_parameter/offest_3 = 0.0
+shader_parameter/offest_4 = 0.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_moo38"]
 material = SubResource("ShaderMaterial_lx8gb")

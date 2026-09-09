@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://addons/shadowglass/core/shadowglass_system.gd" id="1_sys"]
+
+[node name="ShadowGlassSystem" type="Node"]
+script = ExtResource("1_sys")

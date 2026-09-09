@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://b3st3xv3dqy03"
+path="res://.godot/imported/capture_pack.glsl-6cc5c51c4f8ec84c3b347f0583910b1f.res"
+
+[deps]
+
+source_file="res://addons/shadowglass/shaders/capture_pack.glsl"
+dest_files=["res://.godot/imported/capture_pack.glsl-6cc5c51c4f8ec84c3b347f0583910b1f.res"]
+
+[params]
+

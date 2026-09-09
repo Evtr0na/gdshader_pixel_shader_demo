@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://bsfj52krn6yon"
+path="res://.godot/imported/reprojection.glsl-66194a1e9c769a7c2c41e03957de3a3f.res"
+
+[deps]
+
+source_file="res://addons/shadowglass/shaders/reprojection.glsl"
+dest_files=["res://.godot/imported/reprojection.glsl-66194a1e9c769a7c2c41e03957de3a3f.res"]
+
+[params]
+

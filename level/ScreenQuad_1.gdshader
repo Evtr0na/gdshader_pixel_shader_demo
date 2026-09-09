@@ -67,7 +67,7 @@ void fragment() {
         
         vec3  world_positon =world.xyz/world.w;
         // ALBEDO =fract(abs(world_positon)*0.25);
-        return
+     
     }
     ALBEDO = vec3(UV.x,UV.y,0.0);
     
