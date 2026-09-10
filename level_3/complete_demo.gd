@@ -1,165 +1,184 @@
 extends Control
 
+const WIDTH := 1920
+const HEIGTH := 1080
 
-@export var WIDTH := 1920
-@export var HEIGHT := 1080
+var rd: RenderingDevice
 
+var shader_rid:RID
+var pipeline_rid:RID
+var output_texture_rid:RID
+var uniform_set_rid:RID
 
-func _ready() -> void:
-	# 创建一个 RenderingDevice。
-	var rd := RenderingServer.create_local_rendering_device()
+var display_texture:ImageTexture
 
+var time := 0.0 
 
-	# -------------------------
-	# 1. 加载 Compute Shader
-	# -------------------------
+func _ready():
+	setup_compute()
 
-	var shader_path := "res://level_3/gradient.glsl"
-
-	print("文件存在吗：", FileAccess.file_exists(shader_path))
-
-	var shader_file := load(shader_path)
-
-	print("加载结果：", shader_file)
-
-	if shader_file == null:
-		push_error("gradient.glsl 加载失败")
-		return
-
-	var shader_spirv: RDShaderSPIRV = shader_file.get_spirv()
-
-	print("GLSL 编译错误：", shader_spirv.compile_error_compute)
-
-	var shader := rd.shader_create_from_spirv(shader_spirv)
+#life_cycle
+func _physics_process(_delta: float) -> void:
+	timer(_delta)
+	run_compute()
 
 
-	# -------------------------
-	# 2. 创建一张 512×512 图片
-	# -------------------------
+func timer(delta:float)->void:
+	time += delta
 
+
+func setup_compute()->void:
+	#-------------------------------
+	#-- RenderingDevice
+	#-------------------------------
+	rd = RenderingServer.create_local_rendering_device()
+	
+
+	#-------------------------------
+	#-- Shader
+	#-------------------------------
+	var shader_file: RDShaderFile = load("res://level_3/gradient.glsl")
+
+	var spirv: RDShaderSPIRV = (shader_file.get_spirv())
+
+	push_error("GLSL error:",spirv.compile_error_compute)
+
+	shader_rid = (rd.shader_create_from_spirv(spirv))
+
+
+	#-------------------------------
+	#-- Output Texture
+	#-------------------------------
 	var format := RDTextureFormat.new()
 
 	format.width = WIDTH
-	format.height = HEIGHT
+	format.height = HEIGTH
 
-	format.format = RenderingDevice.DATA_FORMAT_R8G8B8A8_UNORM
+	format.format = ( RenderingDevice.DATA_FORMAT_R8G8B8A8_UNORM )
 
 	format.usage_bits = (
-		RenderingDevice.TEXTURE_USAGE_STORAGE_BIT
-		| RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT
+	RenderingDevice.TEXTURE_USAGE_STORAGE_BIT
+	|
+	RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT
 	)
 
 	var view := RDTextureView.new()
 
-	var output_texture := rd.texture_create(
+	output_texture_rid = rd.texture_create(
 		format,
 		view,
 		[]
 	)
 
 
-	# -------------------------
-	# 3. 把图片插到 binding = 0
-	# -------------------------
 
+	#-------------------------------
+	#-- Binding
+	#-------------------------------
 	var uniform := RDUniform.new()
 
-	uniform.uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
-	uniform.binding = 0
-	uniform.add_id(output_texture)
+	uniform.uniform_type = (RenderingDevice.UNIFORM_TYPE_IMAGE)
 
-	var uniform_set := rd.uniform_set_create(
+	uniform.binding = 0
+
+	uniform.add_id(output_texture_rid)
+
+	uniform_set_rid = rd.uniform_set_create(
 		[uniform],
-		shader,
+		shader_rid,
 		0
 	)
 
 
-	# -------------------------
-	# 4. 准备参数
-	# -------------------------
-	var params := PackedFloat32Array(
-		[
-			0.0, # x = time
-			WIDTH, # y = width
-			HEIGHT, # z = height
-			0.0, # w = 暂时没用
-		]
-	)
-
-	var params_bytes := params.to_byte_array()
+	#-------------------------------
+	#-- Pipeline
+	#-------------------------------
+	pipeline_rid = (rd.compute_pipeline_create(shader_rid))
 
 
-	# -------------------------
-	# 5. 让 GPU 执行 Shader
-	# -------------------------
+func run_compute()->void:
 
-	var pipeline := rd.compute_pipeline_create(shader)
+	#-------------------------------
+	#-- Push Constant
+	#-------------------------------
+	var params := PackedFloat32Array([
+		time,
+		WIDTH,
+		HEIGTH,
+		0.0
+	])
 
-	#“这次计算任务，用这个 shader 配置。”
-	var compute_list := rd.compute_list_begin()
+	var params_bytes := (params.to_byte_array())
+
+	#-------------------------------
+	#-- Compute Commands
+	#-------------------------------
+	var compute_list := (rd.compute_list_begin())
+
 	rd.compute_list_bind_compute_pipeline(
 		compute_list,
-		pipeline
+		pipeline_rid
 	)
 
-	# “这次计算任务，把这些 GPU 资源接上。”
 	rd.compute_list_bind_uniform_set(
 		compute_list,
-		uniform_set,
+		uniform_set_rid,
 		0
 	)
-	
-	# “这次计算任务，把几个小参数传进去。”
+
 	rd.compute_list_set_push_constant(
 		compute_list,
 		params_bytes,
 		params_bytes.size()
 	)
-
+	
+	#-------------------------------
+	#-- Dispatch
+	#-------------------------------
 	var groups_x := int(ceil(WIDTH / 8.0))
-	var groups_y := int(ceil(HEIGHT / 8.0))
 
-	# “启动这么多工作组。”
+	var groups_y := int( ceil(HEIGTH / 8.0) )
+
 	rd.compute_list_dispatch(
 		compute_list,
 		groups_x,
 		groups_y,
 		1
-	)
+		)
+
 
 	rd.compute_list_end()
 
 
-	# 真正提交给 GPU。
+	#-------------------------------
+	#-- Execute
+	#-------------------------------
 	rd.submit()
-
-	# 等 GPU 算完。
 	rd.sync()
 
 
-	# -------------------------
-	# 6. 把 GPU 图片拿回来
-	# -------------------------
-
+	#-------------------------------
+	#-- Read Back
+	#-------------------------------
 	var bytes := rd.texture_get_data(
-		output_texture,
+		output_texture_rid,
 		0
-	)
-
+		)
+	
 	var image := Image.create_from_data(
 		WIDTH,
-		HEIGHT,
+		HEIGTH,
 		false,
 		Image.FORMAT_RGBA8,
 		bytes
 	)
 
-	var texture := ImageTexture.create_from_image(image)
+	#-------------------------------
+	#-- Display
+	#-------------------------------
+	if display_texture == null:
+		display_texture = (ImageTexture.create_from_image(image))
+		$TextureRect.texture = (display_texture)
 
-
-	# -------------------------
-	# 7. 显示到 TextureRect
-	# -------------------------
-
-	$TextureRect.texture = texture
+	else:
+		display_texture.update(image)

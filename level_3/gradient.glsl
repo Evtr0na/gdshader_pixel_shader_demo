@@ -33,13 +33,20 @@ void main() {
 		//normalize base on the shortest edge 
 		vec2 p = ( vec2(id) -0.5*size)/float( min(size.x,size.y) );
 
+		float time = params.data.x;
+		float time_1 = ( time*10.0 + 1.0 )/2.0;
+
+		float offset_1 = 0.5/10.0*sin(time_1);
+		float offset_2 = 0.5;
+
 		vec2 point_1 = vec2(0.0,0.0);		
-		float ring_radius = 0.4;
-		float ring_width = 0.03;
+		float ring_radius = offset_2*( 0.4 + offset_1 );
+		float ring_width = offset_2*( 0.03 );
 
 		vec2 delta = p - point_1;
-		float radius =0.3 ;
-		float smooth_values = 0.003;
+		float radius =offset_2*(0.3) ;
+
+		float smooth_values = offset_2*(0.003);
 		float mask = 0.0;
 
 //-----Ring------
@@ -56,7 +63,7 @@ void main() {
 			length_
 		));
 
-		vec4 v = vec4(1.0);
+		vec4 v = vec4(-offset_1+0.4,offset_1+0.2,offset_1*0.1,1.0);
 		vec4 v_2 = vec4(vec3(0.0),1.0);
 		vec4 v_3 = mix(v_2,v,mask);
 
