@@ -32,7 +32,6 @@ sky = SubResource("Sky_dlmxr")
 
 [node name="camera_1" type="Node3D" parent="." unique_id=684451472]
 script = ExtResource("1_omx5w")
-look_speed = 0.005
 speed_walk = 0.06
 
 [node name="Camera3D" type="Camera3D" parent="camera_1" unique_id=1918094212]

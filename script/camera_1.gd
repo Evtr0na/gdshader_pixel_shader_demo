@@ -3,7 +3,7 @@ extends Node3D
 var Right_button_down:bool
 var camera_rotation:Vector2
 
-@export_range(0.001,0.1,0.001) var look_speed:float
+@export_range(0.001,0.1,0.001) var look_speed:float = 0.005
 @export var speed_walk:float = 2.0 
 
 func _physics_process(_delta: float) -> void:

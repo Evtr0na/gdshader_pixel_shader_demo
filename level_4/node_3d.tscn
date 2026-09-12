@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://x7rbgbqrhj3s"]
+
+[ext_resource type="PackedScene" uid="uid://dwg6j61bfy2hc" path="res://level_4/assest/polyhaven/dutch_ship_medium_1k.gltf" id="1_w6a8n"]
+[ext_resource type="Script" uid="uid://lssef6fbe2p1" path="res://level_4/invert_effect.gd" id="2_0jqne"]
+[ext_resource type="Script" uid="uid://cnqoxvquf33sr" path="res://script/camera_1.gd" id="2_3duf0"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3duf0"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_0jqne"]
+sky_material = SubResource("ProceduralSkyMaterial_3duf0")
+
+[sub_resource type="Environment" id="Environment_mnehk"]
+background_mode = 2
+sky = SubResource("Sky_0jqne")
+ambient_light_source = 3
+glow_enabled = true
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_mnehk"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("2_0jqne")
+values_1 = 1.0
+metadata/_custom_type_script = "uid://lssef6fbe2p1"
+
+[sub_resource type="Compositor" id="Compositor_3duf0"]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_mnehk")])
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_32d3c"]
+albedo_color = Color(0.17402825, 0.17402825, 0.17402825, 1)
+emission_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w6a8n"]
+albedo_color = Color(0.17402825, 0.17402825, 0.17402825, 1)
+emission_enabled = true
+emission = Color(0.18177539, 3.465414e-06, 0.80926406, 1)
+emission_energy_multiplier = 16.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dlmxr"]
+albedo_color = Color(0.38928655, 0.38928664, 0.38928658, 1)
+metallic = 1.0
+roughness = 0.0
+
+[node name="Node3D" type="Node3D" unique_id=1366228917]
+
+[node name="camera" type="Node3D" parent="." unique_id=230808098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6651015, 0, -6.976456)
+script = ExtResource("2_3duf0")
+speed_walk = 0.1
+
+[node name="Camera3D" type="Camera3D" parent="camera" unique_id=1857376224]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=707072807]
+environment = SubResource("Environment_mnehk")
+compositor = SubResource("Compositor_3duf0")
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=993737590]
+transform = Transform3D(-0.8226711, -0.2391897, 0.5157525, -4.5585296e-09, 0.90718824, 0.42072508, -0.5685177, 0.34611836, -0.7463175, 1.9393499, 3.2663226, -7.716689)
+shadow_enabled = true
+sky_mode = 1
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=577114727]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2743504, -2.5469558, -0.41289568)
+size = Vector3(1000, 1, 1000)
+material = SubResource("StandardMaterial3D_32d3c")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=278182406]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2325953, -1.8386704, -5.1465006)
+material = SubResource("StandardMaterial3D_32d3c")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="." unique_id=1982688409]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.045329154, -1.8386704, -5.1465006)
+material = SubResource("StandardMaterial3D_w6a8n")
+
+[node name="dutch_ship_medium" parent="." unique_id=191559595 instance=ExtResource("1_w6a8n")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0.21621013, -0.6112797, -3.0780776)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="." unique_id=682692543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1411934, 0, -4.995246)
+material = SubResource("StandardMaterial3D_dlmxr")
