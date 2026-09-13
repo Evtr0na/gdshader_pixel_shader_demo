@@ -12,11 +12,16 @@ var pipeline: RID
 # custom_paramter
 #---------------------------
 @export var pixel_size:int = 24 
-
+@export var visual_style:int = 0
+@export var rotation_value:float = 30.0 
 #---------------------------
 # 一次性初始化
 #---------------------------
 func _init() -> void:
+
+	#仅开始游戏后生效
+	enabled = true
+
 	#在哪个阶段执行
 	effect_callback_type = (
 		EFFECT_CALLBACK_TYPE_POST_TRANSPARENT
@@ -29,6 +34,7 @@ func _init() -> void:
 
 
 func _initialize_compute() -> void:
+
 
 	#获取 RenderingDeivce
 	rd = RenderingServer.get_rendering_device()
@@ -133,7 +139,6 @@ func _render_callback(callback_type: EffectCallbackType,render_data:RenderData)-
 
 	var group_y := int(ceil(size.y/8.0))
 
-
 	#-----------------------
 	# Start GPU Command
 	#-----------------------
@@ -150,7 +155,9 @@ func _render_callback(callback_type: EffectCallbackType,render_data:RenderData)-
 			size.x,
 			size.y,
 			0,  #mode = copy
-			1
+			1,
+			1,
+			1.0,
 		]).to_byte_array()
 
 	rd.compute_list_bind_uniform_set(
@@ -184,7 +191,9 @@ func _render_callback(callback_type: EffectCallbackType,render_data:RenderData)-
 			size.x,
 			size.y,
 			1,  #mode = pixelate
-			pixel_size	#一个色块24*24	
+			pixel_size,	#一个色块24*24	
+			visual_style,
+			rotation_value,
 		]).to_byte_array()
 
 	rd.compute_list_bind_uniform_set(
