@@ -12,7 +12,7 @@ var pipeline: RID
 # custom_paramter
 #---------------------------
 @export var pixel_size:int = 24 
-@export var visual_style:int = 0
+@export_range(0,5,1) var visual_style:int = 0
 @export var rotation_value:float = 30.0 
 #---------------------------
 # 一次性初始化
@@ -220,6 +220,7 @@ func _render_callback(callback_type: EffectCallbackType,render_data:RenderData)-
 														
 #手动打包二进制数据,再在glsl那边解析读取
 #类似 var a := PackedInt32Array.to_byte_array() 不过这个只能自定转化整数
+#但实际上统一使用PackedFloat32Array就行了
 func make_params(
 	size_x : int,
 	size_y : int,
