@@ -1,7 +1,6 @@
 #[compute]
 #version 450
 
-
 layout(
 	local_size_x = 8,
 	local_size_y = 8,
@@ -65,13 +64,7 @@ void main(){
 	}
 
 	// pixelate 
-
-	// vec2 grid_id = rotate_2d(vec2( id + 0.5 ),radians(30.0));
-	// vec2 grid_p = ( vec2( grid_id ) - vec2( size )*0.5 )*scale;
-
-	// float rotation_value_ = float( params.pixel_size );
 	float rotation_value_ = float( params.rotation_value );
-	// float rotation_value_ = 45.0;
 	vec2 rotated_p = rotate_2d(vec2( p + 0.5*scale),radians(rotation_value_));
 	
 	float block_size = max(params.pixel_size,1);

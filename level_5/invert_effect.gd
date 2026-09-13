@@ -151,14 +151,14 @@ func _render_callback(callback_type: EffectCallbackType,render_data:RenderData)-
 	# PASS 1: copy
 	#-----------------------
 	#store a texture first as the target for subsequent pixelation.
-	var copy_params := PackedInt32Array([
+	var copy_params := make_params(
 			size.x,
 			size.y,
 			0,  #mode = copy
 			1,
 			1,
 			1.0,
-		]).to_byte_array()
+		)
 
 	rd.compute_list_bind_uniform_set(
 		compute_list,
@@ -187,14 +187,14 @@ func _render_callback(callback_type: EffectCallbackType,render_data:RenderData)-
 	#-----------------------
 	# PASS 2: Pixelate
 	#-----------------------
-	var pixelate_params:= PackedInt32Array([
+	var pixelate_params:= make_params(
 			size.x,
 			size.y,
 			1,  #mode = pixelate
 			pixel_size,	#一个色块24*24	
 			visual_style,
 			rotation_value,
-		]).to_byte_array()
+		)
 
 	rd.compute_list_bind_uniform_set(
 		compute_list,
@@ -217,6 +217,29 @@ func _render_callback(callback_type: EffectCallbackType,render_data:RenderData)-
 
 	rd.compute_list_end()
 																			
+														
+#手动打包二进制数据,再在glsl那边解析读取
+#类似 var a := PackedInt32Array.to_byte_array() 不过这个只能自定转化整数
+func make_params(
+	size_x : int,
+	size_y : int,
+	mode : int,
+	pixel_size_ : int,
+	visual_style_ : int,
+	rotation_value_ : float
+)->PackedByteArray:
+
+	var data_ := PackedByteArray()
+	data_.resize(24)
+
+	data_.encode_s32(4*0,size_x)
+	data_.encode_s32(4*1,size_y)
+	data_.encode_s32(4*2,mode)
+	data_.encode_s32(4*3,pixel_size_)
+	data_.encode_s32(4*4,visual_style_)
+	data_.encode_float(4*5,rotation_value_)
+
+	return data_
 
 func make_uniform_set(source:RID,target:RID)->RID:
 

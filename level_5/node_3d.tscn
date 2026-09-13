@@ -27,7 +27,7 @@ needs_normal_roughness = false
 script = ExtResource("2_5syw0")
 pixel_size = 26
 visual_style = 1
-rotation_value = 53.495
+rotation_value = 66.59
 metadata/_custom_type_script = "uid://joxkkvqtq2ln"
 
 [sub_resource type="Compositor" id="Compositor_3duf0"]
