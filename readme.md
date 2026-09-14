@@ -6,7 +6,46 @@
 
 The Project is divided into multiple levels,each containing small case studies.
 
+---
+
+## Level_6
+
+#### Different Strength
+![500](./image/blur.gif)
+#### Different Sample_count:
+![500](./image/blur2.gif)
+#### Different Center :
+![500](./image/blur3.gif)
+
+### Features
+
+- 实现Radial Blur基础逻辑
+- 可调整中心位置
+- 可调整强度
+- 采样数量
+
+### Principle
+
+采样position 到 center 中间的点，rgba相加求平均,实现径向模糊
+
+```glsl
+
+	for ( int i = 0 ; i < sample_count  ; i++ ){
+        float t = float( i )/float( sample_count );
+        ...
+        vec2 sample_id_nor = mix(p,center,t*strength);//normalize id
+        ...
+        sum += sample_color;//sum color
+    }
+	vec4 color = sum/( weight_sum );
+```
+![500](./image/bulr_2.png)
+
+
+---
 ## Level_5
+
+![523](./image/ezgif-63348267128da290.gif)
 
 ### Features
 
@@ -36,4 +75,3 @@ The Project is divided into multiple levels,each containing small case studies.
 ![523](./image/ScreenShot_2026-09-13_174232_335.png)
 
 
-![523](./image/ezgif-63348267128da290.gif)

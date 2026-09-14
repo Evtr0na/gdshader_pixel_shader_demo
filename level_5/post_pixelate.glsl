@@ -44,6 +44,7 @@ vec2 rotate_2d(vec2 p ,float angle ) {
 
 void main(){
 
+	//parameter
 	ivec2 id = ivec2(gl_GlobalInvocationID.xy);
 	ivec2 size= params.raster_size;
 	float scale = 1/min(float( size.x ),float( size.y )); 	
@@ -63,29 +64,29 @@ void main(){
 		return;
 	}
 
-	// pixelate 
+	// rotate
 	float rotation_value_ = float( params.rotation_value );
 	vec2 rotated_p = rotate_2d(vec2( p + 0.5*scale),radians(rotation_value_));
 	
+	//which cell is this id in? 
 	float block_size = max(params.pixel_size,1);
 	float block_span = float( block_size )*scale;
 	vec2 cell = floor(rotated_p/block_span);
 	vec2 pixelate_p = ( cell+0.5 )*block_span;
 
+	// sample clolr
 	ivec2 sample_id = ivec2( rotate_2d( pixelate_p ,-radians( rotation_value_ )) /scale  + vec2( size )*0.5);
 	sample_id  = clamp(sample_id,ivec2(0),size - ivec2(1));
 	vec4 color  = imageLoad(source_image,sample_id);
 
 
-	// Draw Circle
+	// normalize in cell
 	vec2 center =vec2( rotate_2d( pixelate_p,-radians(rotation_value_) ) /scale  + vec2( size )*0.5);//real location
 	vec2 local = rotate_2d( (vec2( id ) - vec2(center))/block_size ,radians(rotation_value_));//normalize
-	float grey = dot( color.rgb ,vec3(0.299,0.587,0.114));
-	float luminance  = clamp(grey,0.0,1.0);
-	float dot_mask = 0.0;
-	
-	float dist = max(local.x,local.y);
 
+
+	// Draw patterns
+	float dist = max(local.x,local.y);
 	if (visual_style == 0){
 		vec2 q = abs( local );
 		dist = max(q.x,q.y);//方形
@@ -104,9 +105,17 @@ void main(){
 			}
 		}
 	}
+
+	//grey
+	float grey = dot( color.rgb ,vec3(0.299,0.587,0.114));
+	float luminance  = clamp(grey,0.0,1.0);
 	float distance_ = mix( 0.0,0.5,luminance );
+
+	//mask
+	float dot_mask = 0.0;
 	dot_mask = max(dot_mask,1.0 - smoothstep(distance_,distance_+0.1,dist));//Option-2
 
+	//color
 	vec3 white = vec3(1.0);
 	vec3 black = vec3(0.0);
 
