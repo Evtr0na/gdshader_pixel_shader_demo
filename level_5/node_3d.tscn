@@ -25,9 +25,9 @@ effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
 script = ExtResource("2_5syw0")
-pixel_size = 23
-visual_style = 2
-rotation_value = 80.58
+pixel_size = 19
+visual_style = 1
+rotation_value = 101.88
 metadata/_custom_type_script = "uid://joxkkvqtq2ln"
 
 [sub_resource type="Compositor" id="Compositor_3duf0"]
