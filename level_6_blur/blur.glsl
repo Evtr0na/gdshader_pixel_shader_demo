@@ -47,8 +47,8 @@ void main(){
 	//parameter
 	ivec2 id = ivec2(gl_GlobalInvocationID.xy);
 	ivec2 size= params.raster_size;
-	float scale = 1/min(float( size.x ),float( size.y )); 	
-	vec2 p = ( vec2( id ) - vec2( size )*0.5 )*scale;
+	float scale = 1.0/min(float( size.x ),float( size.y )); 	
+	vec2 p = ( vec2( id + 0.5 ) - vec2( size )*0.5 )*scale;
 	 
 	if (id.x >= size.x || id.y >= size.y){
 	return;
@@ -63,7 +63,8 @@ void main(){
 	
 	float strength = max(0.0, params.strength );//blur strength
 	int sample_count = max( 1,params.sample_count );
-	vec2 center	= clamp(params.center,-size*scale,size*scale);//blur center and limit center in screen
+	vec2 screen_half = 0.5*vec2( size )*scale ;
+	vec2 center	= clamp(params.center,-screen_half,screen_half);//blur center and limit center in screen
 
 	vec2 direction = center - p;
 	vec4 sum = vec4(0.0);
@@ -71,13 +72,15 @@ void main(){
 
 	for ( int i = 0 ; i < sample_count  ; i++ ){
 		float t = float( i )/float( sample_count );
-		float weight =1.0 - t;
+		// float weight =1.0 - t;
+		float weight =pow( 1.0 - t ,2);
+		// float weight =t;
 
 		// vec2 sample_id_nor = p + direction * t * strength;
 		vec2 sample_id_nor = mix(p,center,t*strength);//normalize id
 		ivec2 sample_id = ivec2( sample_id_nor / scale + 0.5*vec2( size ) );//real id
 
-		sample_id = clamp(sample_id,ivec2(0,0),size);
+		sample_id = clamp(sample_id,ivec2(0,0),size - ivec2(1));
 		vec4 sample_color = imageLoad(source_image,sample_id);
 		sample_color *= weight;
 

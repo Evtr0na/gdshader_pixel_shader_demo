@@ -25,8 +25,8 @@ effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
 script = ExtResource("2_5syw0")
-strength = 0.815
-sample_count = 14
+strength = 4.435
+sample_count = 273
 metadata/_custom_type_script = "uid://joxkkvqtq2ln"
 
 [sub_resource type="Compositor" id="Compositor_3duf0"]
