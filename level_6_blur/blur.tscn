@@ -1,8 +1,8 @@
-[gd_scene format=3 uid="uid://bl6jezk7gsbt6"]
+[gd_scene format=3 uid="uid://bl6je0k7gsbt6"]
 
 [ext_resource type="Script" uid="uid://cnqoxvquf33sr" path="res://script/camera_1.gd" id="1_2jjh1"]
-[ext_resource type="Script" uid="uid://v9kzwn7xeursf" path="res://level_6_blur/blur.gd" id="2_2rro0"]
-[ext_resource type="PackedScene" uid="uid://d13qu8ef8jihk" path="res://level_4/dutch_ship_medium.tscn" id="3_lpbmq"]
+[ext_resource type="Script" uid="uid://joxkkvqtq2ln" path="res://level_6_blur/blur.gd" id="2_2rro0"]
+[ext_resource type="PackedScene" uid="uid://d13qu8ef8jihk" path="res://level_4_white_black/dutch_ship_medium.tscn" id="3_lpbmq"]
 
 [sub_resource type="CompositorEffect" id="CompositorEffect_855fi"]
 resource_local_to_scene = false

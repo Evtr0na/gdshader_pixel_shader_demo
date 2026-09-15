@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://c2qo6jma26gjx" path="res://level_7_Chromatic_Aberration/level.gd" id="1_fkmvv"]
 [ext_resource type="Script" uid="uid://cnqoxvquf33sr" path="res://script/camera_1.gd" id="2_7ggep"]
-[ext_resource type="Script" uid="uid://de6lsypvo8l63" path="res://level_8_box_blur/box_blur.gd" id="2_ufekq"]
-[ext_resource type="PackedScene" uid="uid://d13qu8ef8jihk" path="res://level_4/dutch_ship_medium.tscn" id="4_3ofho"]
+[ext_resource type="Script" uid="uid://cyc70ok8e81l7" path="res://level_9_Gaussion_Blur/Gaussion_Blur.gd" id="2_ufekq"]
+[ext_resource type="PackedScene" uid="uid://d13qu8ef8jihk" path="res://level_4_white_black/dutch_ship_medium.tscn" id="4_3ofho"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_plb65"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -17,19 +17,18 @@ background_mode = 2
 sky = SubResource("Sky_ufekq")
 glow_enabled = true
 
-[sub_resource type="CompositorEffect" id="CompositorEffect_ufekq"]
+[sub_resource type="CompositorEffect" id="CompositorEffect_lx0qu"]
 resource_local_to_scene = false
 resource_name = ""
-enabled = false
+enabled = true
 effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
 script = ExtResource("2_ufekq")
-sample_count = 14
-metadata/_custom_type_script = "uid://de6lsypvo8l63"
+metadata/_custom_type_script = "uid://cyc70ok8e81l7"
 
 [sub_resource type="Compositor" id="Compositor_plb65"]
-compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_ufekq")])
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_lx0qu")])
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_32d3c"]
 albedo_color = Color(0.17402825, 0.17402825, 0.17402825, 1)

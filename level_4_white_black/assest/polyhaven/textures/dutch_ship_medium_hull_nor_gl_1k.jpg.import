@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d0o02dukkiy03"
-path="res://.godot/imported/dutch_ship_medium_hull_nor_gl_1k.jpg-de5ff14180bb7e8d6ad915828a5469cf.ctex"
+path="res://.godot/imported/dutch_ship_medium_hull_nor_gl_1k.jpg-50fb6a197c1ad6f94918a05b67b65948.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://level_4/assest/polyhaven/textures/dutch_ship_medium_hull_nor_gl_1k.jpg"
-dest_files=["res://.godot/imported/dutch_ship_medium_hull_nor_gl_1k.jpg-de5ff14180bb7e8d6ad915828a5469cf.ctex"]
+source_file="res://level_4_white_black/assest/polyhaven/textures/dutch_ship_medium_hull_nor_gl_1k.jpg"
+dest_files=["res://.godot/imported/dutch_ship_medium_hull_nor_gl_1k.jpg-50fb6a197c1ad6f94918a05b67b65948.ctex"]
 
 [params]
 

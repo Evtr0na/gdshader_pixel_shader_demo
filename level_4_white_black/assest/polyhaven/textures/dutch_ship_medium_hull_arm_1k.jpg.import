@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://25kxoi7ssf4p"
-path="res://.godot/imported/dutch_ship_medium_hull_diff_1k.jpg-1660c138db1e72ed5412c28fed2b24c9.ctex"
+uid="uid://diw315lrub1vw"
+path="res://.godot/imported/dutch_ship_medium_hull_arm_1k.jpg-27e5eed2eff3151245e887f4330471b3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://level_4/assest/polyhaven/textures/dutch_ship_medium_hull_diff_1k.jpg"
-dest_files=["res://.godot/imported/dutch_ship_medium_hull_diff_1k.jpg-1660c138db1e72ed5412c28fed2b24c9.ctex"]
+source_file="res://level_4_white_black/assest/polyhaven/textures/dutch_ship_medium_hull_arm_1k.jpg"
+dest_files=["res://.godot/imported/dutch_ship_medium_hull_arm_1k.jpg-27e5eed2eff3151245e887f4330471b3.ctex"]
 
 [params]
 

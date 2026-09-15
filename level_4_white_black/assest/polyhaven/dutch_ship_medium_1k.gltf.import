@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dwg6j61bfy2hc"
-path="res://.godot/imported/dutch_ship_medium_1k.gltf-609bcef3169c6b8c51ee98f9cc815d83.scn"
+path="res://.godot/imported/dutch_ship_medium_1k.gltf-ebae2cd1f69bc87d72ddf8bcde271125.scn"
 
 [deps]
 
-source_file="res://level_4/assest/polyhaven/dutch_ship_medium_1k.gltf"
-dest_files=["res://.godot/imported/dutch_ship_medium_1k.gltf-609bcef3169c6b8c51ee98f9cc815d83.scn"]
+source_file="res://level_4_white_black/assest/polyhaven/dutch_ship_medium_1k.gltf"
+dest_files=["res://.godot/imported/dutch_ship_medium_1k.gltf-ebae2cd1f69bc87d72ddf8bcde271125.scn"]
 
 [params]
 

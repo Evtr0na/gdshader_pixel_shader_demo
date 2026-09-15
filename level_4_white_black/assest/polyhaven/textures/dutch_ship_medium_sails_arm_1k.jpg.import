@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bumebphru2wfw"
-path="res://.godot/imported/dutch_ship_medium_rigging_diff_1k.jpg-9cd9f9d0ac6852c7b2a82749c41f4c10.ctex"
+uid="uid://btwwehn0f3vpy"
+path="res://.godot/imported/dutch_ship_medium_sails_arm_1k.jpg-0e7626bfc39ff2391230de5fa1d36026.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://level_4/assest/polyhaven/textures/dutch_ship_medium_rigging_diff_1k.jpg"
-dest_files=["res://.godot/imported/dutch_ship_medium_rigging_diff_1k.jpg-9cd9f9d0ac6852c7b2a82749c41f4c10.ctex"]
+source_file="res://level_4_white_black/assest/polyhaven/textures/dutch_ship_medium_sails_arm_1k.jpg"
+dest_files=["res://.godot/imported/dutch_ship_medium_sails_arm_1k.jpg-0e7626bfc39ff2391230de5fa1d36026.ctex"]
 
 [params]
 

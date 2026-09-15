@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c2qo6jma26gjx" path="res://level_7_Chromatic_Aberration/level.gd" id="1_fmeef"]
 [ext_resource type="Script" uid="uid://cnqoxvquf33sr" path="res://script/camera_1.gd" id="2_tew5m"]
 [ext_resource type="Script" uid="uid://de6lsypvo8l63" path="res://level_8_box_blur/box_blur.gd" id="4_fmeef"]
-[ext_resource type="PackedScene" uid="uid://d13qu8ef8jihk" path="res://level_4/dutch_ship_medium.tscn" id="4_nbeq1"]
+[ext_resource type="PackedScene" uid="uid://d13qu8ef8jihk" path="res://level_4_white_black/dutch_ship_medium.tscn" id="4_nbeq1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_32d3c"]
 albedo_color = Color(0.17402825, 0.17402825, 0.17402825, 1)

@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://o3617k88ntva"
+path="res://.godot/imported/Gaussion_Blur.glsl-2cdd689c754b5737ba711e2ccb30b2da.res"
+
+[deps]
+
+source_file="res://level_9_Gaussion_Blur/Gaussion_Blur.glsl"
+dest_files=["res://.godot/imported/Gaussion_Blur.glsl-2cdd689c754b5737ba711e2ccb30b2da.res"]
+
+[params]
+

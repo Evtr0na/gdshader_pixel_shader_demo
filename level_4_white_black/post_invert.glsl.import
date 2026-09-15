@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://b7kvxqfmw6ioc"
+path="res://.godot/imported/post_invert.glsl-1cf1e6437dec4a565d1520c7d3951314.res"
+
+[deps]
+
+source_file="res://level_4_white_black/post_invert.glsl"
+dest_files=["res://.godot/imported/post_invert.glsl-1cf1e6437dec4a565d1520c7d3951314.res"]
+
+[params]
+

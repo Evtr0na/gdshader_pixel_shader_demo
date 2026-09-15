@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://d13qu8ef8jihk"]
+
+[ext_resource type="PackedScene" uid="uid://dwg6j61bfy2hc" path="res://level_4_white_black/assest/polyhaven/dutch_ship_medium_1k.gltf" id="1_sqio8"]
+
+[node name="dutch_ship_medium" unique_id=691521336 instance=ExtResource("1_sqio8")]

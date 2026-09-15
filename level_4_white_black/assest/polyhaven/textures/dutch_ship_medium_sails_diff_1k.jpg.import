@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b5k2xxreujcga"
-path="res://.godot/imported/dutch_ship_medium_sails_diff_1k.jpg-6a8cb9629b45d7daa6a03e9853ff54f2.ctex"
+path="res://.godot/imported/dutch_ship_medium_sails_diff_1k.jpg-423958e160635b1e0a13c5c0f9cb5654.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://level_4/assest/polyhaven/textures/dutch_ship_medium_sails_diff_1k.jpg"
-dest_files=["res://.godot/imported/dutch_ship_medium_sails_diff_1k.jpg-6a8cb9629b45d7daa6a03e9853ff54f2.ctex"]
+source_file="res://level_4_white_black/assest/polyhaven/textures/dutch_ship_medium_sails_diff_1k.jpg"
+dest_files=["res://.godot/imported/dutch_ship_medium_sails_diff_1k.jpg-423958e160635b1e0a13c5c0f9cb5654.ctex"]
 
 [params]
 
