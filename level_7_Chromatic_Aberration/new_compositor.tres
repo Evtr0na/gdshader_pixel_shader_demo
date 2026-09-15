@@ -1,0 +1,16 @@
+[gd_resource type="Compositor" format=3 uid="uid://bxvmvifu25bb4"]
+
+[ext_resource type="Script" uid="uid://joxkkvqtq2ln" path="res://level_7_Chromatic_Aberration/invert_effect.gd" id="1_8t4h0"]
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_klw0b"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("1_8t4h0")
+metadata/_custom_type_script = "uid://joxkkvqtq2ln"
+
+[resource]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_klw0b")])

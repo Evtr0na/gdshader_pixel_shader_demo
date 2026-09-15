@@ -1,8 +1,21 @@
-[gd_scene format=3 uid="uid://umjitpkpkaso5"]
+[gd_scene format=3 uid="uid://bl6jezk7gsbt6"]
 
 [ext_resource type="Script" uid="uid://cnqoxvquf33sr" path="res://script/camera_1.gd" id="1_2jjh1"]
-[ext_resource type="Script" uid="uid://vv3b5jln3wjxn" path="res://level_5/invert_effect.gd" id="2_2jjh1"]
-[ext_resource type="PackedScene" uid="uid://d13qu8ef8jihk" path="res://level_4/dutch_ship_medium.tscn" id="3_2jjh1"]
+[ext_resource type="Script" uid="uid://v9kzwn7xeursf" path="res://level_6_blur/blur.gd" id="2_2rro0"]
+[ext_resource type="PackedScene" uid="uid://d13qu8ef8jihk" path="res://level_4/dutch_ship_medium.tscn" id="3_lpbmq"]
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_855fi"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("2_2rro0")
+metadata/_custom_type_script = "uid://v9kzwn7xeursf"
+
+[sub_resource type="Compositor" id="Compositor_2rro0"]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_855fi")])
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3duf0"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -16,19 +29,6 @@ background_mode = 2
 sky = SubResource("Sky_0jqne")
 ambient_light_source = 3
 glow_enabled = true
-
-[sub_resource type="CompositorEffect" id="CompositorEffect_6ptpu"]
-resource_local_to_scene = false
-resource_name = ""
-enabled = true
-effect_callback_type = 4
-needs_motion_vectors = false
-needs_normal_roughness = false
-script = ExtResource("2_2jjh1")
-metadata/_custom_type_script = "uid://vv3b5jln3wjxn"
-
-[sub_resource type="Compositor" id="Compositor_2jjh1"]
-compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_6ptpu")])
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_32d3c"]
 albedo_color = Color(0.17402825, 0.17402825, 0.17402825, 1)
@@ -53,10 +53,10 @@ script = ExtResource("1_2jjh1")
 speed_walk = 0.05
 
 [node name="Camera3D" type="Camera3D" parent="camera" unique_id=1857376224]
+compositor = SubResource("Compositor_2rro0")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=707072807]
 environment = SubResource("Environment_mnehk")
-compositor = SubResource("Compositor_2jjh1")
 
 [node name="DirectionalLight3D2" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=993737590]
 transform = Transform3D(-0.8226711, -0.2391897, 0.5157525, -4.5585296e-09, 0.90718824, 0.42072508, -0.5685177, 0.34611836, -0.7463175, 1.9393499, 3.2663226, -7.716689)
@@ -80,5 +80,5 @@ material = SubResource("StandardMaterial3D_w6a8n")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1411934, 0, -4.995246)
 material = SubResource("StandardMaterial3D_dlmxr")
 
-[node name="dutch_ship_medium2" parent="." unique_id=691521336 instance=ExtResource("3_2jjh1")]
-transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -3.1993756, 0, -2.253606)
+[node name="dutch_ship_medium2" parent="." unique_id=691521336 instance=ExtResource("3_lpbmq")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -1.9486837, 0, -1.9074659)

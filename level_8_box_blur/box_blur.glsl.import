@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://dllx08s7jcgfp"
+path="res://.godot/imported/box_blur.glsl-50af00ad9f6e9509895b14db04f93f90.res"
+
+[deps]
+
+source_file="res://level_8_box_blur/box_blur.glsl"
+dest_files=["res://.godot/imported/box_blur.glsl-50af00ad9f6e9509895b14db04f93f90.res"]
+
+[params]
+
