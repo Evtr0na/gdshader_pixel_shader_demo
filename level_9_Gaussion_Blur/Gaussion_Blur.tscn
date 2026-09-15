@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://da4oj8ijxai3c"]
 
 [ext_resource type="Script" uid="uid://c2qo6jma26gjx" path="res://level_7_Chromatic_Aberration/level.gd" id="1_3as6f"]
-[ext_resource type="Script" uid="uid://de6lsypvo8l63" path="res://level_8_box_blur/box_blur.gd" id="2_x2r6s"]
+[ext_resource type="Script" uid="uid://cyc70ok8e81l7" path="res://level_9_Gaussion_Blur/Gaussion_Blur.gd" id="2_e4uwi"]
 [ext_resource type="Script" uid="uid://cnqoxvquf33sr" path="res://script/camera_1.gd" id="3_hwfbr"]
 [ext_resource type="PackedScene" uid="uid://d13qu8ef8jihk" path="res://level_4_white_black/dutch_ship_medium.tscn" id="4_nbs5e"]
 
@@ -20,14 +20,14 @@ glow_enabled = true
 [sub_resource type="CompositorEffect" id="CompositorEffect_ufekq"]
 resource_local_to_scene = false
 resource_name = ""
-enabled = false
+enabled = true
 effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
-script = ExtResource("2_x2r6s")
-strength = 49.835
-sample_count = 6
-metadata/_custom_type_script = "uid://de6lsypvo8l63"
+script = ExtResource("2_e4uwi")
+sigma = -0.625
+radius_ = 33
+metadata/_custom_type_script = "uid://cyc70ok8e81l7"
 
 [sub_resource type="Compositor" id="Compositor_plb65"]
 compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_ufekq")])

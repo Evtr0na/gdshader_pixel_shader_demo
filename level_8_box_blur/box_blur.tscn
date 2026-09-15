@@ -25,6 +25,7 @@ effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
 script = ExtResource("2_ufekq")
+strength = 18.28
 metadata/_custom_type_script = "uid://cyc70ok8e81l7"
 
 [sub_resource type="Compositor" id="Compositor_plb65"]

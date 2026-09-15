@@ -12,9 +12,8 @@ var pipeline: RID
 # custom_paramter
 #---------------------------
 
-@export var center : Vector2 = Vector2(0.0,0.0)
-@export var strength : float = 0.5
-@export var sample_count : int = 8
+@export var sigma : float = 0.5
+@export var radius_ : int = 8
 #---------------------------
 # 一次性初始化
 #---------------------------
@@ -100,7 +99,7 @@ func _render_callback(callback_type: EffectCallbackType,render_data:RenderData)-
 
 	var temp_image := buffers.create_texture(
 			"pixelate",   #context，类似命名空间
-			"source_copy",#纹理名字
+			"horizontal_result",#纹理名字
 
 			RenderingDevice.DATA_FORMAT_R16G16B16A16_SFLOAT,#RGBA 每通道 16-bit 浮点
 
@@ -123,7 +122,7 @@ func _render_callback(callback_type: EffectCallbackType,render_data:RenderData)-
 
 	#pass 1
 	#Scene -> Temp
-	var copy_set := make_uniform_set(
+	var horizontal_set := make_uniform_set(
 			color_image,
 			temp_image
 		)
@@ -131,7 +130,7 @@ func _render_callback(callback_type: EffectCallbackType,render_data:RenderData)-
 	
 	#pass 2
 	# Temp -> Scene
-	var pixelate_set := make_uniform_set(
+	var vertical_set := make_uniform_set(
 		temp_image,
 		color_image
 		)
@@ -152,26 +151,24 @@ func _render_callback(callback_type: EffectCallbackType,render_data:RenderData)-
 	# PASS 1: copy
 	#-----------------------
 	#store a texture first as the target for subsequent pixelation.
-	var copy_params := make_params(
+	var horiziontal_params := make_params(
 			size.x,
 			size.y,
-			0,  #mode = copy
-			1.0,
-			1.0,
-			1.0,
-			1
+			0,  #mode = pixelate
+			sigma,
+			radius_,
 		)
 
 	rd.compute_list_bind_uniform_set(
 		compute_list,
-		copy_set,	 #一整组已经配好的 uniform 资源
+		horizontal_set,	 #一整组已经配好的 uniform 资源
 		0		     #set = 0 
 	)
 
 	rd.compute_list_set_push_constant(
 		compute_list,
-		copy_params,
-		copy_params.size()
+		horiziontal_params,
+		horiziontal_params.size()
 	)
 	rd.compute_list_dispatch(
 		compute_list,
@@ -182,33 +179,31 @@ func _render_callback(callback_type: EffectCallbackType,render_data:RenderData)-
 
 
 	#-----------------------
-	# wait pass1 done
+	# wait pass1 Horiziontal Gaussion
 	#-----------------------
 	rd.compute_list_add_barrier(compute_list)
 
 	#-----------------------
-	# PASS 2: Pixelate
+	# PASS 2: Vertical Gaussion
 	#-----------------------
-	var pixelate_params:= make_params(
+	var vertical_params:= make_params(
 			size.x,
 			size.y,
 			1,  #mode = pixelate
-			center.x,
-			center.y,
-			strength,
-			sample_count,
+			sigma,
+			radius_,
 		)
 
 	rd.compute_list_bind_uniform_set(
 		compute_list,
-		pixelate_set,	 #一整组已经配好的 uniform 资源
+		vertical_set,	 #一整组已经配好的 uniform 资源
 		0		     #set = 0 
 	)
 
 	rd.compute_list_set_push_constant(
 		compute_list,
-		pixelate_params,
-		pixelate_params.size()
+		vertical_params,
+		vertical_params.size()
 	)
 	rd.compute_list_dispatch(
 		compute_list,
@@ -228,24 +223,18 @@ func make_params(
 	size_x : int,
 	size_y : int,
 	mode : int,
-	center_x : float,
-	center_y : float,
 	strength_ : float,
 	sample_count_ : int,
-
 )->PackedByteArray:
 
 	var data_ := PackedByteArray()
-	data_.resize(4*8)
+	data_.resize(4*5)
 
 	data_.encode_s32(4*0,size_x)
 	data_.encode_s32(4*1,size_y)
 	data_.encode_s32(4*2,mode)
-
-	data_.encode_float(4*4,center_x)
-	data_.encode_float(4*5,center_y)
-	data_.encode_float(4*6,strength_)
-	data_.encode_s32(4*7,sample_count_)
+	data_.encode_float(4*3,strength_)
+	data_.encode_s32(4*4,sample_count_)
 
 	return data_
 
@@ -276,8 +265,6 @@ func make_uniform_set(source:RID,target:RID)->RID:
 
 				]
 		)
-
-
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
