@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://cgq5h3pdxw30b"]
 
 [ext_resource type="Script" uid="uid://cnqoxvquf33sr" path="res://script/camera_1.gd" id="1_2jjh1"]
-[ext_resource type="Script" uid="uid://joxkkvqtq2ln" path="res://level_6_blur/invert_effect.gd" id="2_5syw0"]
-[ext_resource type="PackedScene" uid="uid://s7mfg6myjd5d" path="res://level_6_blur/assest/polyhaven/dutch_ship_medium_1k.gltf" id="3_lsq54"]
+[ext_resource type="Script" uid="uid://c2qo6jma26gjx" path="res://level_7_Chromatic_Aberration/level.gd" id="1_6ptpu"]
+[ext_resource type="Script" uid="uid://joxkkvqtq2ln" path="res://level_7_Chromatic_Aberration/invert_effect.gd" id="2_alx4h"]
+[ext_resource type="PackedScene" uid="uid://s7mfg6myjd5d" path="res://level_7_Chromatic_Aberration/assest/polyhaven/dutch_ship_medium_1k.gltf" id="3_lsq54"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3duf0"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -17,20 +18,19 @@ sky = SubResource("Sky_0jqne")
 ambient_light_source = 3
 glow_enabled = true
 
-[sub_resource type="CompositorEffect" id="CompositorEffect_2jjh1"]
+[sub_resource type="CompositorEffect" id="CompositorEffect_lpbmq"]
 resource_local_to_scene = false
 resource_name = ""
 enabled = true
 effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
-script = ExtResource("2_5syw0")
-strength = 0.7
-sample_count = 273
+script = ExtResource("2_alx4h")
+strength = 0.01
 metadata/_custom_type_script = "uid://joxkkvqtq2ln"
 
 [sub_resource type="Compositor" id="Compositor_3duf0"]
-compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_2jjh1")])
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_lpbmq")])
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_32d3c"]
 albedo_color = Color(0.17402825, 0.17402825, 0.17402825, 1)
@@ -48,6 +48,7 @@ metallic = 1.0
 roughness = 0.0
 
 [node name="Node3D" type="Node3D" unique_id=1366228917]
+script = ExtResource("1_6ptpu")
 
 [node name="camera" type="Node3D" parent="." unique_id=230808098]
 transform = Transform3D(-0.1578166, -0.52917475, 0.8337074, -0.098422274, 0.8485129, 0.51994133, -0.9825513, 0, -0.185992, 2.45835, 1.5227188, -3.1340075)

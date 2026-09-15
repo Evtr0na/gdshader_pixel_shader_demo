@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://ciia31kntfpgl"
+path="res://.godot/imported/Chromatic_Aberration.glsl-d2c3a8242cbcab8501753048337165b6.res"
+
+[deps]
+
+source_file="res://level_7_Chromatic_Aberration/Chromatic_Aberration.glsl"
+dest_files=["res://.godot/imported/Chromatic_Aberration.glsl-d2c3a8242cbcab8501753048337165b6.res"]
+
+[params]
+

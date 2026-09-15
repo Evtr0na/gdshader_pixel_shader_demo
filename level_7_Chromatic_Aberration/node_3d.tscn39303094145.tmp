@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cgq5h3pdxw30b"]
 
 [ext_resource type="Script" uid="uid://cnqoxvquf33sr" path="res://script/camera_1.gd" id="1_2jjh1"]
-[ext_resource type="Script" uid="uid://joxkkvqtq2ln" path="res://level_6_blur/invert_effect.gd" id="2_5syw0"]
-[ext_resource type="PackedScene" uid="uid://s7mfg6myjd5d" path="res://level_6_blur/assest/polyhaven/dutch_ship_medium_1k.gltf" id="3_lsq54"]
+[ext_resource type="Script" uid="uid://joxkkvqtq2ln" path="res://level_5/invert_effect.gd" id="2_5syw0"]
+[ext_resource type="PackedScene" uid="uid://s7mfg6myjd5d" path="res://level_5/assest/polyhaven/dutch_ship_medium_1k.gltf" id="3_lsq54"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3duf0"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -20,13 +20,13 @@ glow_enabled = true
 [sub_resource type="CompositorEffect" id="CompositorEffect_2jjh1"]
 resource_local_to_scene = false
 resource_name = ""
-enabled = true
+enabled = false
 effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
 script = ExtResource("2_5syw0")
-strength = 0.7
-sample_count = 273
+pixel_size = 25
+visual_style = 3
 metadata/_custom_type_script = "uid://joxkkvqtq2ln"
 
 [sub_resource type="Compositor" id="Compositor_3duf0"]
