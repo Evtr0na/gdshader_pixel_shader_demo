@@ -1,0 +1,40 @@
+﻿=== ScreenShot_2026-09-20_142643_390.png ===
+model: minimax-m3   (6086 ms)
+============================================================
+```
+Inspector    Node    History
+
+Camera3D
+
+Filter Properties
+
+Compositor                          Compositor
+Compositor Effects                  Array[CompositorEffect] (size 1)
+Size:                               1
+
+  0                                 WorldDepthOnly
+
+  Dither Mode                       2
+  Dither Levels                     3
+  Quantization Mode                 3
+  Quantization Levels               12
+  Dither Spread                     20
+  Apply To                          0
+  Outline Color                     [orange]
+  Outline Mode                      1
+  Outline Strength                  0.4
+  Ta Strength                       6.0
+  Ta Start                          10.0
+  Ta End                            30.0
+  Enabled                           ✓ On
+  Effect Callback Type              Post Sky
+  Access Resolved Color             ☐ On
+  Access Resolved Depth             ☐ On
+  Needs Motion Vectors              ☐ On
+  Needs Normal Roughness            ☐ On
+  Needs Separate Specular           ☐ On
+
+  > Resource
+
+              +    Add Element
+```

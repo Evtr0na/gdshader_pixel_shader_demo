@@ -54,3 +54,26 @@ static func compile_compute(rd: RenderingDevice, path: String) -> RDShaderSPIRV:
 	src.language = RenderingDevice.SHADER_LANGUAGE_GLSL
 	src.source_compute = FileAccess.get_file_as_string(path)
 	return rd.shader_compile_spirv_from_source(src)
+
+
+## Free RenderingDevice resources safely from the main thread.
+##
+## RenderingDevice.free_rid() is render-thread only: calling it from a
+## _notification(PREDELETE) or a _ready() path logs
+## "This function (free_rid) can only be called from the render thread."
+## and silently leaks. Route it through the render thread instead.
+static func free_rids(rd: RenderingDevice, rids: Array) -> void:
+	if rd == null:
+		return
+	var valid: Array[RID] = []
+	for rid in rids:
+		if rid is RID and (rid as RID).is_valid():
+			valid.append(rid)
+	if valid.is_empty():
+		return
+	RenderingServer.call_on_render_thread(_free_rids_on_render_thread.bind(rd, valid))
+
+
+static func _free_rids_on_render_thread(rd: RenderingDevice, rids: Array[RID]) -> void:
+	for rid in rids:
+		rd.free_rid(rid)

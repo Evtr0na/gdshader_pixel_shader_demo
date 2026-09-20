@@ -25,7 +25,7 @@ effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
 script = ExtResource("2_e4uwi")
-sigma = -0.625
+sigma = 15.505
 radius_ = 33
 metadata/_custom_type_script = "uid://cyc70ok8e81l7"
 

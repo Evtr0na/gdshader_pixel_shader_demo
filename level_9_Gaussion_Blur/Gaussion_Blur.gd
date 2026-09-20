@@ -269,4 +269,11 @@ func make_uniform_set(source:RID,target:RID)->RID:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		if shader.is_valid():
-			rd.free_rid(shader)
+			# free_rid() is render-thread only; calling it from _notification
+			# logs "This function (free_rid) can only be called from the render
+			# thread." and leaks. Hand it to the render thread instead.
+			RenderingServer.call_on_render_thread(_free_shader.bind(shader))
+
+
+func _free_shader(shader_rid: RID) -> void:
+	rd.free_rid(shader_rid)

@@ -1,0 +1,33 @@
+﻿=== ScreenShot_2026-09-20_142722_644.png ===
+model: minimax-m3   (5516 ms)
+============================================================
+```python
+    if is_instance_valid(camera):
+        var camera_pos = camera.global_position
+        # distance from cubemap center to camera
+        var dist = camera_pos.distance_to(cubemap_grid_position)
+        # transport cubemap if player moved too far away
+        if dist > grid_width:
+            capture_cubemap()
+            update_gpu_textures()
+            render_material.set_shader_parameter("prev_tex_posx", previous_textures[0])
+            render_material.set_shader_parameter("prev_tex_negx", previous_textures[1])
+            render_material.set_shader_parameter("prev_tex_posy", previous_textures[2])
+            render_material.set_shader_parameter("prev_tex_negy", previous_textures[3])
+            render_material.set_shader_parameter("prev_tex_posz", previous_textures[4])
+            render_material.set_shader_parameter("prev_tex_negz", previous_textures[5])
+
+            render_material.set_shader_parameter("cubemap_2_center", cubemap_grid_position)
+            
+            temporal_blend = 0.0
+            # move cubemap directly to camera position
+            cubemap_grid_position = camera_pos
+            
+            for vp in subviewports_256:
+                vp.get_child(0).global_position = cubemap_grid_position
+    
+    # pass the cubemap center
+    render_material.set_shader_parameter("cubemap_1_center", cubemap_grid_position)
+    # update blend timer
+    render_material.set_shader_parameter("temporal_blend", temporal_blend)
+```

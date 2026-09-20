@@ -1,15 +1,28 @@
 class_name ShadowGlassSystem
 extends Node
 ## Owns three capture banks (Live, AnchorA, AnchorB), drives the anchor
-## capture / crossfade state machine, and installs the ReprojectionEffect on
-## the main camera. Main-thread only (render thread work lives in the effects).
+## capture / crossfade state machine, and installs the ReprojectionEffect on the
+## main camera's compositor.
+##
+## Two cube maps do the work:
+##   * the LIVE bank follows the camera every frame and is always correct, but
+##     its cube centre moves, so sampling it crawls during translation;
+##   * the ANCHOR banks are frozen snapshots. Because their centre is static,
+##     reprojecting the scene into them is stable while the camera moves.
+## Once the camera strays further than `capture_distance` from the active
+## anchor, the inactive anchor bank re-captures at the new position and the two
+## are crossfaded, weighted by per-pixel depth-validity so disoccluded regions
+## never bleed the wrong colour in.
+##
+## Main-thread only; all render-thread work lives in the effects.
 
 enum CaptureState { IDLE, CAPTURE_READY, BLENDING }
 
-const RESOLUTIONS: Array[int] = [64, 128, 256]
+const RESOLUTIONS: Array[int] = [32, 64, 128, 256, 512]
 
 @export var config: ShadowGlassConfig
-## The camera whose compositor receives the reprojection effect.
+## The camera whose compositor receives the reprojection effect. Leave empty to
+## use the viewport's current 3D camera.
 @export var main_camera: Camera3D
 
 var reprojection: ReprojectionEffect
@@ -25,16 +38,41 @@ var state: CaptureState = CaptureState.IDLE
 
 var _wait_frames := 0
 var _last_live_center := Vector3.ZERO
+var _cam_ready := false
 
 
 func _ready() -> void:
 	if config == null:
 		config = ShadowGlassConfig.new()
+	# The main camera may not be resolvable until the whole scene has entered
+	# the tree, so defer everything that depends on it.
+	_build_banks.call_deferred()
+
+
+func _build_banks() -> void:
 	if main_camera == null:
 		main_camera = _find_main_camera()
-	_build_banks()
+	if main_camera == null:
+		push_warning(
+			"ShadowGlassSystem: no Camera3D found. Assign `main_camera` or add "
+			+ "a current Camera3D to the viewport."
+		)
+		return
+
+	# Bind the capture viewports to the main World3D only once both are inside
+	# the tree; setting world_3d earlier gets reset by Godot's World3D lifetime
+	# bookkeeping.
+	var world := main_camera.get_world_3d()
+
+	live_bank = _make_bank(&"live", world)
+	anchor_banks = [
+		_make_bank(&"anchor", world),
+		_make_bank(&"anchor", world),
+	]
+
 	_install_reprojection()
 	_initial_capture()
+	_cam_ready = true
 
 
 func _find_main_camera() -> Camera3D:
@@ -44,38 +82,13 @@ func _find_main_camera() -> Camera3D:
 	return null
 
 
-func _build_banks() -> void:
-	for b in anchor_banks:
-		if is_instance_valid(b):
-			b.release()
-			b.queue_free()
-	anchor_banks.clear()
-	if is_instance_valid(live_bank):
-		live_bank.release()
-		live_bank.queue_free()
-
-	live_bank = _make_bank(&"live")
-	var a := _make_bank(&"anchor")
-	var b := _make_bank(&"anchor")
-	anchor_banks = [a, b]
-
-	var world: World3D = null
-	if main_camera != null:
-		world = main_camera.get_world_3d()
-	for bank in [live_bank, a, b]:
-		if world != null:
-			bank.set_world(world)
-
-	if reprojection != null:
-		reprojection.configure_atlases(live_bank.get_atlas_rid(), a.get_atlas_rid(), b.get_atlas_rid())
-
-
-func _make_bank(kind: StringName) -> CaptureBank:
+func _make_bank(kind: StringName, world: World3D) -> CaptureBank:
 	var bank := CaptureBank.new()
 	bank.name = String(kind)
 	bank.kind = kind
 	add_child(bank)
-	bank.setup(config.capture_resolution, config)
+	bank.setup(config.capture_resolution, config, world)
+	bank.set_world(world)
 	return bank
 
 
@@ -84,9 +97,23 @@ func _install_reprojection() -> void:
 		return
 	if reprojection == null:
 		reprojection = ReprojectionEffect.new()
-		main_compositor = Compositor.new()
-		main_compositor.compositor_effects = [reprojection]
-		main_camera.compositor = main_compositor
+
+	# NOTE: Compositor.compositor_effects returns a *copy* of the typed array, so
+	# `compositor.compositor_effects.append(x)` silently does nothing. Build the
+	# whole array and assign it in one go.
+	main_compositor = Compositor.new()
+	var effects: Array[CompositorEffect] = []
+	var existing := main_camera.compositor
+	if existing != null:
+		# Preserve any compositor the scene already assigned to the camera.
+		for effect in existing.compositor_effects:
+			if effect != null and effect != reprojection:
+				effects.append(effect)
+	effects.append(reprojection)
+	main_compositor.compositor_effects = effects
+	main_camera.compositor = main_compositor
+
+	reprojection.apply_config(config)
 	reprojection.set_capture_resolution(config.capture_resolution)
 	reprojection.configure_atlases(
 		live_bank.get_atlas_rid(),
@@ -96,20 +123,22 @@ func _install_reprojection() -> void:
 
 
 func _initial_capture() -> void:
-	var start := Vector3.ZERO
-	if main_camera != null:
-		start = main_camera.global_position
+	var start := main_camera.global_position
 	anchor_positions = [start, start]
+	_last_live_center = start
 	for i in range(2):
 		anchor_banks[i].set_center(start)
 		anchor_banks[i].set_update_mode(SubViewport.UPDATE_ONCE)
-	_wait_frames = 3
+	# Let the anchor viewports actually render before the blend is allowed to
+	# read them.
+	_wait_frames = maxi(1, config.capture_warmup_frames)
 	state = CaptureState.CAPTURE_READY
 
 
 func _process(delta: float) -> void:
-	if main_camera == null or reprojection == null:
+	if not _cam_ready or reprojection == null:
 		return
+
 	reprojection.apply_config(config)
 	reprojection.set_capture_resolution(config.capture_resolution)
 
@@ -119,7 +148,7 @@ func _process(delta: float) -> void:
 		_last_live_center = cam_pos
 
 	_run_state_machine(delta, cam_pos)
-	_push_reprojection(cam_pos)
+	_push_reprojection()
 
 
 func _run_state_machine(delta: float, cam_pos: Vector3) -> void:
@@ -129,13 +158,10 @@ func _run_state_machine(delta: float, cam_pos: Vector3) -> void:
 			if _wait_frames <= 0:
 				for i in range(2):
 					anchor_banks[i].set_update_mode(SubViewport.UPDATE_DISABLED)
-				state = CaptureState.IDLE
+				state = CaptureState.BLENDING if _is_crossfading() else CaptureState.IDLE
 		CaptureState.BLENDING:
 			var t := config.transition_time
-			if t > 0.001:
-				transition_progress += delta / t
-			else:
-				transition_progress += 1.0
+			transition_progress += (delta / t) if t > 0.001 else 1.0
 			if transition_progress >= 1.0:
 				transition_progress = 1.0
 				anchor_banks[1 - _active()].set_update_mode(SubViewport.UPDATE_DISABLED)
@@ -144,9 +170,13 @@ func _run_state_machine(delta: float, cam_pos: Vector3) -> void:
 		CaptureState.IDLE:
 			if config.debug_freeze_anchor:
 				return
-			var active_pos := anchor_positions[_active()]
-			if cam_pos.distance_to(active_pos) > config.capture_distance:
+			if cam_pos.distance_to(anchor_positions[_active()]) > config.capture_distance:
 				_begin_capture(cam_pos)
+
+
+## True when the newly captured bank should be faded in rather than snapped to.
+func _is_crossfading() -> bool:
+	return config.transition_time > 0.001
 
 
 func _begin_capture(new_pos: Vector3) -> void:
@@ -155,17 +185,15 @@ func _begin_capture(new_pos: Vector3) -> void:
 	anchor_banks[inactive].set_update_mode(SubViewport.UPDATE_ONCE)
 	anchor_positions[inactive] = new_pos
 	transition_progress = 0.0
-	_wait_frames = 3
+	_wait_frames = maxi(1, config.capture_warmup_frames)
 	state = CaptureState.CAPTURE_READY
 
 
 func _active() -> int:
-	if active_index >= 0 and active_index < 2:
-		return active_index
-	return 0
+	return active_index if active_index in [0, 1] else 0
 
 
-func _push_reprojection(_cam_pos: Vector3) -> void:
+func _push_reprojection() -> void:
 	reprojection.set_centers(
 		_last_live_center,
 		anchor_positions[0],
@@ -174,58 +202,70 @@ func _push_reprojection(_cam_pos: Vector3) -> void:
 	)
 
 
+## anchor_blend semantics: 0 -> fully anchor A, 1 -> fully anchor B.
 func _current_blend() -> float:
-	# anchor_blend semantics: 0 -> fully anchor A, 1 -> fully anchor B.
 	if state == CaptureState.BLENDING:
-		if _active() == 0:
-			return transition_progress
-		return 1.0 - transition_progress
-	if _active() == 0:
-		return 0.0
-	return 1.0
+		return transition_progress if _active() == 0 else 1.0 - transition_progress
+	return 0.0 if _active() == 0 else 1.0
+
+
+## --- Public control ---------------------------------------------------------
+
+func rebuild() -> void:
+	## Recreate every bank. Call after changing capture_near / capture_far /
+	## capture_cull_mask / capture_sky, which are baked into the bank nodes.
+	if not _cam_ready:
+		return
+	for bank in anchor_banks:
+		if is_instance_valid(bank):
+			bank.release()
+			bank.queue_free()
+	anchor_banks.clear()
+	if is_instance_valid(live_bank):
+		live_bank.release()
+		live_bank.queue_free()
+	live_bank = null
+	_build_banks()
 
 
 func set_resolution(res: int) -> void:
 	config.capture_resolution = res
-	_build_banks()
-	_install_reprojection()
-	_initial_capture()
+	rebuild()
 
 
 func force_capture() -> void:
-	if state == CaptureState.IDLE and main_camera != null:
+	if _cam_ready and state == CaptureState.IDLE and main_camera != null:
 		_begin_capture(main_camera.global_position)
 
 
-func _cycle_resolution() -> void:
+func cycle_resolution() -> int:
 	var idx := RESOLUTIONS.find(config.capture_resolution)
-	var next_idx := 0
-	if idx >= 0:
-		next_idx = (idx + 1) % RESOLUTIONS.size()
+	var next_idx := (idx + 1) % RESOLUTIONS.size() if idx >= 0 else 0
 	set_resolution(RESOLUTIONS[next_idx])
-	push_warning("ShadowGlass resolution -> %d" % RESOLUTIONS[next_idx])
+	return RESOLUTIONS[next_idx]
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not (event is InputEventKey and event.pressed):
+	if not (event is InputEventKey and event.pressed and not event.echo):
 		return
-	var key := (event as InputEventKey).keycode
-	match key:
+	match (event as InputEventKey).keycode:
 		KEY_F1:
 			config.enabled = not config.enabled
 		KEY_F2:
-			if config.debug_mode == ShadowGlassConfig.DebugMode.VALIDITY:
-				config.debug_mode = ShadowGlassConfig.DebugMode.FINAL
-			else:
-				config.debug_mode = ShadowGlassConfig.DebugMode.VALIDITY
+			config.debug_mode = (
+				ShadowGlassConfig.DebugMode.FINAL
+				if config.debug_mode != ShadowGlassConfig.DebugMode.FINAL
+				else ShadowGlassConfig.DebugMode.VALIDITY
+			)
 		KEY_F3:
-			if config.debug_mode == ShadowGlassConfig.DebugMode.ORIGINAL:
-				config.debug_mode = ShadowGlassConfig.DebugMode.FINAL
-			else:
-				config.debug_mode = ShadowGlassConfig.DebugMode.ORIGINAL
+			config.debug_mode = (
+				ShadowGlassConfig.DebugMode.FINAL
+				if config.debug_mode != ShadowGlassConfig.DebugMode.FINAL
+				else ShadowGlassConfig.DebugMode.ORIGINAL
+			)
 		KEY_F4:
 			config.debug_freeze_live = not config.debug_freeze_live
 		KEY_F5:
 			force_capture()
 		KEY_F6:
-			_cycle_resolution()
+			cycle_resolution()

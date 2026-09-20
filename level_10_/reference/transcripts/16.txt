@@ -1,0 +1,18 @@
+﻿=== ScreenShot_2026-09-20_142855_470.png ===
+model: minimax-m3   (4877 ms)
+============================================================
+```
+decoode the stored depth
+
+259
+260      »     // Cubemap samples
+261      »     vec4 sample_curr = sample_cubemap_strict(-dir);
+262      »     vec4 sample_prev = sample_cubemap_strict_3(-dir2);
+263
+264      »     // Decode depth
+265      »     float stored_1 = pow(sample_curr.a, 5.0) * z_range;
+266      »   »   float stored_2 = pow(sample_prev.a, 5.0) * z_range;
+267
+
+z_range is the "camera far" minus "camera near"
+```

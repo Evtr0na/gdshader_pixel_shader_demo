@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ShadowGlassConfig" format=3 uid="uid://c0sg10cfg0lvl"]
+
+[ext_resource type="Script" uid="uid://l1xvxt7cv17u" path="res://addons/shadowglass/resources/shadowglass_config.gd" id="1_cfg"]
+
+[resource]
+script = ExtResource("1_cfg")
+capture_sky_color = Color(0.6622428, 0.6717428, 0.6867428, 1)
+quantization_enabled = true
+dither_enabled = false
+face_blend_sharpness = 77.0
+occlusion_absolute_threshold = 0.01
+occlusion_relative_threshold = 0.03
+occlusion_probe_threshold = 0.05

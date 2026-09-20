@@ -1,0 +1,11 @@
+﻿=== ScreenShot_2026-09-20_142814_507.png ===
+model: minimax-m3   (3179 ms)
+============================================================
+```
+225
+226 ⌄ vec3 cubemap_depth_correct_fast( vec3 world_pos, vec3 probe_center) {
+227     // direction from probe to fragment
+228     return  normalize(world_pos - probe_center);
+229 }
+230
+```

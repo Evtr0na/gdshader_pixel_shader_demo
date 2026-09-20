@@ -1,0 +1,52 @@
+﻿=== ScreenShot_2026-09-20_142146_698.png ===
+model: minimax-m3   (9873 ms)
+============================================================
+```
+File    Search  Edit    Go To   Help
+
+cubemap.gdshader
+```
+
+```gdscript
+color = pow(color, vec3(1.0 / 2.2));
+
+	// clamp final output
+	return clamp(color, 0.0, 1.0);
+}
+
+void fragment() {
+	// Camera direction for this pixel (from camera to fragment)
+	vec3 world_view_dir = normalize((INV_VIEW_MATRIX * vec4(VIEW*zoom, 0.0)).xyz);
+
+	vec3 color = sample_cubemap(world_view_dir);
+	vec3 color2 = sample_cubemap2(world_view_dir);
+	//ALBEDO = mix(color, color2, interpolation_z);
+
+	// quantize before mixing, to have intermediate colors for blending
+	//color = floor(color * 6.0) / 6.0;
+	//color2 = floor(color2 * 6.0) / 6.0;
+
+	// remap before lookup table
+	// cheap log compression
+	float white = 2.0;
+	color = log2(1.0 + color) / log2(1.0 + white);
+	color2 = log2(1.0 + color2) / log2(1.0 + white);
+
+	//color = agx_tonemap(color);
+	//color2 = agx_tonemap(color2);
+
+	// quantize via quantized LUT
+	color = texture(lut, color).xyz;
+	color2 = texture(lut, color2).xyz;
+
+	ALBEDO = mix(color, color2, 0.5); // blend to minimize distance flickering
+}
+```
+
+Pixelated overlay text:
+```
+* declare
+it as an
+uniform
+sampler3D
+```

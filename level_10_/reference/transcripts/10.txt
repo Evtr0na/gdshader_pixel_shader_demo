@@ -1,0 +1,76 @@
+﻿=== ScreenShot_2026-09-20_142622_789.png ===
+model: minimax-m3   (9350 ms)
+============================================================
+```
+cuby_cubemap_camera.tscn - PixelCubemaps - Godot Engine
+
+Scene  Project  Debug  Editor  Help
+2D  3D  Script  Game  AssetLib
+Forward+
+
+Main    cuby_cubemap_camera    cuby_cubemap_fixed  +
+
+Scene | Import
+Filter: name, t:type
+CubemapCamera
+  SubViewportX+
+    Camera3D
+  SubViewportX-
+    Camera3D
+  SubViewportY+
+    Camera3D
+  SubViewportY-
+    Camera3D
+  SubViewportZ+
+    Camera3D
+  SubViewportZ-
+    Camera3D
+
+FileSystem
+res://addons/cubygi/cuby_sav
+Filter Files
+  Palettes
+  CubyController.gd
+  cuby_config.gd
+  cuby_manager.gd
+  cuby_marching.gdshader
+  cuby_saved_config.tres
+  Palette2LUT.tres
+  plugin.cfg
+  test_scene_main.tscn
+  castle
+
+Transform    View
+  Perspective
+  Preview
+
+CPU Time: 0.72 ms
+GPU Time: 5.63 ms
+FPS: 177
+
+Filter Messages
+
+Inspector | Node | History
+Camera3D
+Filter Properties
+
+Camera3D
+Keep Aspect                    Keep Height
+Cull Mask
+1  2  3  4  5  11  12  13  14  15
+6  7  8  9  10  16  17  18  19  20
+
+Environment                    <empty>
+Attributes                     <empty>
+Compositor                     Compositor
+H Offset                       0.0 m
+V Offset                       0.0 m
+Doppler Tracking               Disabled
+Projection                     Perspective
+Current                        On
+FOV                            90.0°
+Near                           0.05 m
+Far                            4000.0 m
+
+Node3D
+```

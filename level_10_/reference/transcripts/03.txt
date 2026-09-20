@@ -1,0 +1,50 @@
+﻿=== ScreenShot_2026-09-20_141842_693.png ===
+model: minimax-m3   (11406 ms)
+============================================================
+```
+Scene  Project  Debug  Editor  Help                                                                  2D  3D  Script  AssetLib                              ▶  II  ■  ⏹  📷  🎥  Forward+
+
+Scene   Import                                                          Main  ×  scene(*)  +                                                                       Inspector  Node  History
+                          Filter: name, t:type, g:group                  ▶  ↺  ↻  ⛶  🔒  ⬚  🎭  🔦  ⚙  ⚙  Transform  View  Mesh                                    MeshInstance3D                                ▼  👥
+                                                                          Perspective
+✛  ○  Node3D                                                                                                  ⏶                                            Filter Properties                                     🔍  🛠
+    ☀  DirectionalLight3D                                                                                       ⟲
+    ⊙  WorldEnvironment                                                                                                CPU Time: 0.32 ms
+    🗗  SubViewportContainer                                                                                              GPU Time: 1.92 ms
+      🖼  SubViewport                                                                                                       FPS: 520
+        ⋯  CharacterBody3D
+          📷  Camera3D
+            ⚔  Sting-sword-lowpoly                                                                              Shader                              🔗  cubemap.gds                                     ▼
+            ▢  MeshInstance3D                                                                                   Render Priority                                   0
+                                                                                                            
+        ▣  CollisionShape3D                                                                                    Next Pass                                       <empty>                            ▼
+        ▢  MeshInstance3D                                                                                     ▾ Shader Parameters
+          🌀  CubemapController                                                                                  Q Levels                                       2
+            🌀  Cubemap-256                                                                                      Interpolation Z                                  0
+              🖼  SubViewportX+                                                                                  Zoom                                            1
+                📷  Camera3D                                                                                     O Y                                             0
+                  🔧  SubViewport3D(?)                                                                           Blend Sharpness                                 77.299
+                                                                                                                Tex Posx                                       <empty>                            ▼
+                                                                                                                Tex Negx                                       <empty>                            ▼
+FileSystem                                                                                                       Tex Posy                                       <empty>                            ▼
+                                                                                                                Tex Negy                                       <empty>                            ▼
+◀  ▶  res://materials/cubemapmaterial.tres       📁
+                                                                                                                Tex Posz                                       <empty>                            ▼
+      Filter Files                  🔍  ⋮⋮
+                                                                                                                Tex Negz                                       <empty>                            ▼
+★  Favorites:
+                                                                                                                Tex Posx Z                                     <empty>                            ▼
+▾  📁  res://
+  ▶  📁  castle                                                                                                 Tex Negx Z                                     <empty>                            ▼
+  ▾  📁  materials                                                                                              Tex Posy Z                                     <empty>                            ▼
+      🖼  cubemapmaterial.tres                                                                                  Tex Negy Z                                     <empty>                            ▼
+  ▾  📁  shaders
+      🖼  cubemap.gdshader                                                                                      Tex Posz Z                                     <empty>                            ▼
+  ▶  📁  stuff                                                                                                  Tex Nezz Z                                     <empty>                            ▼
+  ⚙  Accumulation.gd
+  ⚙  CharacterBody3D.gd
+  ⚙  CubemapController.gd
+  🖼  DitheredLUT-256-DOS.png
+
+                                                                  ●  Output   ●  Debugger (2)   Search Results   Audio   Animation   Shader Editor                                    4.2.1.stable   📝
+```

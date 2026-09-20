@@ -1,0 +1,41 @@
+﻿=== ScreenShot_2026-09-20_141944_454.png ===
+model: minimax-m3   (6982 ms)
+============================================================
+```
+File		Search Edit Go To Help		cubemap.gdshader(*)
+75
+76  v  vec3 sample_cubemap2(vec3 dir) {
+77      vec3 abs_dir = abs(dir);
+78      float max_axis = max(max(abs_dir.x, abs_dir.y), abs_dir.z);
+79
+80      // Smooth blending weights
+81      vec3 weights = pow(abs_dir / max_axis, vec3(blend_sharpness));
+82      weights /= (weights.x + weights.y + weights.z);
+83
+84  v    // offset half a pixel to create antialiasing
+85      // but if we do so, we are doubling our final render resolution.
+86      // out textures are 256x256, a pixel equals 1/256 or 0.004. Half a pixel = 0.002
+87      // we can add a smaller value to keep the final image very pixelated and
+88      // still add a bit of antialiasing like 0.0004
+89
+90  v    vec3 col_x = mix(
+91          »    texture(tex_posx_z, clamp(cube_uv(dir, 1) + vec2(o_y,o_y), 0.001, 0.999)).rgb,
+92          »    texture(tex_negx_z, clamp(cube_uv(dir, 0) + vec2(o_y,o_y), 0.001, 0.999)).rgb,
+93          »    step(0.0, dir.x)
+94      );
+95  v    vec3 col_y = mix(
+96          »    texture(tex_posy_z, clamp(cube_uv(dir, 3) + vec2(o_y,o_y), 0.001, 0.999)).rgb,
+97          »    texture(tex_negy_z, clamp(cube_uv(dir, 2) + vec2(o_y,o_y), 0.001, 0.999)).rgb,
+98          »    step(0.0, dir.y)
+99      );
+100 v    vec3 col_z = mix(
+101         »    texture(tex_posz_z, clamp(cube_uv(dir, 5) + vec2(o_y,o_y), 0.001, 0.999)).rgb,
+102         »    texture(tex_negz_z, clamp(cube_uv(dir, 4) + vec2(o_y,o_y), 0.001, 0.999)).rgb,
+103         »    step(0.0, dir.z)
+104     );
+105
+106     return weights.x * col_x + weights.y * col_y + weights.z * col_z;
+107 }
+```
+
+Status bar: `⚠ 2    91 : 58 | Tabs`

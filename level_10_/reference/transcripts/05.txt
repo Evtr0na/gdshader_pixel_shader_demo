@@ -1,0 +1,44 @@
+﻿=== ScreenShot_2026-09-20_141924_111.png ===
+model: minimax-m3   (11565 ms)
+============================================================
+```
+File    Search Edit Go To Help
+
+cubemap.gdshader
+
+28
+29	// Convert a direction vector into UVs for a given face
+30	vec2 cube_uv(vec3 dir, int face) {
+31	    dir = normalize(dir);
+32	    vec2 uv;
+33	
+34	    if (face == 0) uv = vec2(-dir.z, dir.y) / abs(dir.x);    // +X
+35	    if (face == 1) uv = vec2(dir.z, dir.y) / abs(dir.x);     // -X
+36	    if (face == 2) uv = vec2(dir.x, -dir.z) / abs(dir.y);    // +Y
+37	    if (face == 3) uv = vec2(dir.x, dir.z) / abs(dir.y);     // -Y
+38	    if (face == 4) uv = vec2(dir.x, dir.y) / abs(dir.z);     // +Z
+39	    if (face == 5) uv = vec2(-dir.x, dir.y) / abs(dir.z);    // -Z
+40	
+41	    uv = vec2(-uv.x, uv.y);
+42	    uv = clamp(uv, -0.999, 0.999);
+43	
+44	    return uv * 0.5 + 0.5;
+45	}
+46	
+47	
+48	// Blend all 6 cube faces based on the view direction
+49	vec3 sample_cubemap(vec3 dir) {
+50	    vec3 abs_dir = abs(dir);
+51	    float max_axis = max(max(abs_dir.x, abs_dir.y), abs_dir.z);
+52	
+53	    // Smooth blending weights
+54	    vec3 weights = pow(abs_dir / max_axis, vec3(blend_sharpness));
+55	    weights /= (weights.x + weights.y + weights.z);
+56	
+57	    vec3 col_x = mix(
+58	        texture(tex_posx, cube_uv(dir, 1)).rgb,
+59	        texture(tex_negx, cube_uv(dir, 0)).rgb,
+
+
+                                                                          ⚠ 2    126 : 61 | Tabs
+```

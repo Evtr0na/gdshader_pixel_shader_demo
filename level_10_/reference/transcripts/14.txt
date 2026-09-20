@@ -1,0 +1,15 @@
+﻿=== ScreenShot_2026-09-20_142805_255.png ===
+model: minimax-m3   (3414 ms)
+============================================================
+```
+If the camera and cubemap can see the same pixel,
+that means the pixel depth must be equal.
+
+World Position
+
+view vector
+
+dir vector
+
+Cubemap Center
+```

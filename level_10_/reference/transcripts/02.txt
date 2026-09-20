@@ -1,0 +1,31 @@
+﻿=== ScreenShot_2026-09-20_141801_589.png ===
+model: minimax-m3   (6894 ms)
+============================================================
+```gdscript
+18	func _process(_delta):
+19		# grab quantized player position within a world grid
+20		# var p_pos = player.get_child(0).global_position.snapped(Vector3(step, step, step))
+21		var p_pos = player.get_child(0).global_position
+22		# position the cameras of the viewports always in front of each other so we alternate cubemaps as we walk
+23		for vp in subviewports_256:
+24			vp.get_child(0).global_position = p_pos # this cubemap is ALWAYS within the same grid space as the player
+25		for vp in subviewports_128:
+26			vp.get_child(0).global_position = p_pos.snapped(Vector3(step, step, step)) #
+27		# mat.set_shader_parameter("interpolation_z", p_pos.z - player.global_position.z) # difference between quantized
+28		# assign all viewport textures to the shader
+29		# camera centered viewport
+30		mat.set_shader_parameter("tex_posx", subviewports_256[0].get_texture())
+31		mat.set_shader_parameter("tex_negx", subviewports_256[1].get_texture())
+32		mat.set_shader_parameter("tex_posy", subviewports_256[2].get_texture())
+33		mat.set_shader_parameter("tex_negy", subviewports_256[3].get_texture())
+34		mat.set_shader_parameter("tex_posz", subviewports_256[4].get_texture())
+35		mat.set_shader_parameter("tex_negz", subviewports_256[5].get_texture())
+36		
+37		# other viewports
+38		mat.set_shader_parameter("tex_posx_z", subviewports_128[0].get_texture())
+39		mat.set_shader_parameter("tex_negx_z", subviewports_128[1].get_texture())
+40		mat.set_shader_parameter("tex_posy_z", subviewports_128[2].get_texture())
+41		mat.set_shader_parameter("tex_negy_z", subviewports_128[3].get_texture())
+42		mat.set_shader_parameter("tex_posz_z", subviewports_128[4].get_texture())
+43		mat.set_shader_parameter("tex_negz_z", subviewports_128[5].get_texture())
+```

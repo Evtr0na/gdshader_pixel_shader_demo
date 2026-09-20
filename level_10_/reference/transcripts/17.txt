@@ -1,0 +1,45 @@
+﻿=== ScreenShot_2026-09-20_142928_006.png ===
+model: minimax-m3   (10202 ms)
+============================================================
+```
+reprojection
+                                272      // Spatial reprojection error
+                                273      float diff1 = length(reproj1 - world_pos);
+                                274      float diff2 = length(reproj2 - world_pos);
+
+                                276      // Rejection threshold
+                                277      float reject = 0.01 + cam_dist * 0.05;
+
+                                279      // Probe validity
+                                280      float valid1 = 1.0 - smoothstep(reject, reject * 2.0, diff1);
+                                281      float valid2 = 1.0 - smoothstep(reject, reject * 2.0, diff2);
+
+                                283      // Convert to linear
+                                284      vec3 curr_lin = pow(sample_curr.rgb, vec3(2.2));
+                                285      vec3 prev_lin = pow(sample_prev.rgb, vec3(2.2));
+
+linear color space
+                                287      // Temporal blend
+                                288      float depth_diff = abs(diff1 - diff2);
+                                289      float t = sqrt(smoothstep(0.0, 1.0, temporal_blend));
+
+                                291      // Weight probes by validity
+                                292      float w_curr = t * valid1;
+depth difference                  293      float w_prev = (1.0 - t) * valid2;
+                                294      float weight_sum = w_curr + w_prev;
+                                295      vec3 blended_lin;
+
+                                297      // Fallback if both probes invalid
+                                298      if (weight_sum > 0.0001) {
+                                299          blended_lin = (curr_lin * w_curr + prev_lin * w_prev) / weight_sum;
+                                300      }
+                                301      else {
+                                302          if (!fallback_to_cubemap) {
+                                303              ALPHA = 0.0; // Fallback to original image (less flicker)
+                                304          }
+                                305          else {
+                                306              blended_lin = pow(fallback.rgb, vec3(2.2));
+                                307          }
+                                308      //blended_lin = vec3(1.0,0.0,1.0); // debug disocclusion
+                                309      }
+```

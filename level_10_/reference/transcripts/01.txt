@@ -1,0 +1,31 @@
+﻿=== ScreenShot_2026-09-20_141743_153.png ===
+model: minimax-m3   (10931 ms)
+============================================================
+```
+extends Node3D
+
+@export var mat: Material
+@export var step = 0.001
+@export var player : CharacterBody3D
+@onready var viewports_256 = $"Cubemap-256"
+@onready var viewports_128 = $"Cubemap-128"
+
+var subviewports_256 = []
+var subviewports_128 = []
+
+func _[unclear]():
+	for i in viewports_256.get_children():
+		subviewports_256.push_back(i)
+	for i in viewports_128.get_children():
+		subviewports_128.push_back(i)
+
+func _process(_delta):
+	# grab quantized player position within a world grid
+	# var p_pos = player.get_child(0).global_position.snapped(Vector3(step, step, step))
+	var p_pos = player.get_child(0).global_position
+	# position the cameras of the viewports always in front of each other so we alternate cubemaps as we walk
+	for vp in subviewports_256:
+		vp.get_child(0).global_position = p_pos # this cubemap is ALWAYS within the same grid space as the player
+	for vp in subviewports_128:
+		vp.get_child(0).global_position = p_pos.snapped(Vector3(step, step, step)) #
+```

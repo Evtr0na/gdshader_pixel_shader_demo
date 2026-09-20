@@ -28,7 +28,12 @@ func _init() -> void:
 	if rd == null:
 		push_warning("ShadowGlass CapturePackEffect: RenderingDevice unavailable (Forward+ required).")
 		return
-	var spirv := ShadowGlassUtils.compile_compute(rd, "res://addons/shadowglass/shaders/capture_pack.glsl")
+	var spirv := ShadowGlassUtils.compile_compute(
+		rd, "res://addons/shadowglass/shaders/capture_pack.glsl"
+	)
+	if spirv.compile_error_compute != "":
+		push_error("ShadowGlass capture_pack.glsl:\n%s" % spirv.compile_error_compute)
+		return
 	shader = rd.shader_create_from_spirv(spirv)
 	pipeline = rd.compute_pipeline_create(shader)
 
@@ -48,14 +53,7 @@ func _init() -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE and rd != null:
-		if pipeline.is_valid():
-			rd.free_rid(pipeline)
-		if shader.is_valid():
-			rd.free_rid(shader)
-		if depth_sampler.is_valid():
-			rd.free_rid(depth_sampler)
-		if params_buffer.is_valid():
-			rd.free_rid(params_buffer)
+		ShadowGlassUtils.free_rids(rd, [pipeline, shader, depth_sampler, params_buffer])
 
 
 func _render_callback(_type: int, render_data: RenderData) -> void:
