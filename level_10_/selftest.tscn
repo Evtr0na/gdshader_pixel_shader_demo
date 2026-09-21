@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dnet6qfpg5yo3"]
+
+[ext_resource type="PackedScene" uid="uid://b10sg3dpixlvl" path="res://level_10_/level_10.tscn" id="1_lvl"]
+
+[node name="SelfTest" unique_id=1128573808 instance=ExtResource("1_lvl")]
+
+[node name="Probe" type="Node" parent="." index="17" unique_id=1884464629]

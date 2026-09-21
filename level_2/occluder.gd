@@ -1,7 +1,6 @@
 extends Node3D
 ## Slowly oscillating occluder for testing anchor staleness / disocclusion.
 
-
 @export var axis := Vector3(1, 0, 0)
 @export var distance := 4.0
 @export var speed := 1.5

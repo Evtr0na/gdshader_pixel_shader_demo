@@ -1,24 +1,2 @@
 
-{ {
-    _extmark_id = 1,
-    bufnr = 8,
-    col = 0,
-    end_col = 0,
-    end_lnum = 18,
-    lnum = 18,
-    message = "[comp] '=' :  cannot convert from ' const 4-component vector of float' to ' temp highp 3-component vector of float'",
-    namespace = 7,
-    severity = 1,
-    source = "glslang"
-  }, {
-    _extmark_id = 2,
-    bufnr = 8,
-    col = 0,
-    end_col = 0,
-    end_lnum = 18,
-    lnum = 18,
-    message = "[comp] '' : compilation terminated ",
-    namespace = 7,
-    severity = 1,
-    source = "glslang"
-  } }
+LSP[gdscript] The GDScript Language Server might not work correctly with other projects than the one opened in Godot.

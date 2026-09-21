@@ -6,8 +6,3 @@
 script = ExtResource("1_cfg")
 capture_sky_color = Color(0.6622428, 0.6717428, 0.6867428, 1)
 quantization_enabled = true
-dither_enabled = false
-face_blend_sharpness = 77.0
-occlusion_absolute_threshold = 0.01
-occlusion_relative_threshold = 0.03
-occlusion_probe_threshold = 0.05
