@@ -16,8 +16,8 @@ filter_nearest;
 uniform sampler2D
 depth_texture:hint_depth_texture,
 repeat_disable,
-filter_nearest
-;
+filter_nearest;
+
 uniform float offest_1;
 uniform float offest_2;
 uniform float offest_3;
@@ -67,7 +67,7 @@ void fragment() {
         
         vec3  world_positon =world.xyz/world.w;
         // ALBEDO =fract(abs(world_positon)*0.25);
-     
+        
     }
     ALBEDO = vec3(UV.x,UV.y,0.0);
     

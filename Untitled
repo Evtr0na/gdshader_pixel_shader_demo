@@ -1,2 +1,22 @@
 
-LSP[gdscript] The GDScript Language Server might not work correctly with other projects than the one opened in Godot.
+调试日志轮询出错：
+...urce/godot-instance.nvim/lua/godot-instance/debuglog.lua:1207: attempt to call global 'redraw_after_output' (a nil value)
+调试日志轮询出错：
+...urce/godot-instance.nvim/lua/godot-instance/debuglog.lua:1207: attempt to call global 'redraw_after_output' (a nil value)
+调试日志轮询出错：
+...urce/godot-instance.nvim/lua/godot-instance/debuglog.lua:1207: attempt to call global 'redraw_after_output' (a nil value)
+GDShader: formatted 9 line(s)
+GDShader: formatted 9 line(s)
+GDShader: formatted 9 line(s)
+调试日志轮询出错：
+...urce/godot-instance.nvim/lua/godot-instance/debuglog.lua:1207: attempt to call global 'redraw_after_output' (a nil value)
+GDShader: formatted 9 line(s)
+GDShader: formatted 9 line(s)
+调试日志轮询出错：
+...urce/godot-instance.nvim/lua/godot-instance/debuglog.lua:1207: attempt to call global 'redraw_after_output' (a nil value)
+GDShader: formatted 9 line(s)
+GDShader: formatted 9 line(s)
+GDShader: formatted 9 line(s)
+GDShader: formatted 9 line(s)
+调试日志轮询出错：
+...urce/godot-instance.nvim/lua/godot-instance/debuglog.lua:1207: attempt to call global 'redraw_after_output' (a nil value)
