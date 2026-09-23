@@ -2,15 +2,5 @@
 
 [ext_resource type="Script" uid="uid://cvqb304ylxxfh" path="res://level_11/step_01.gd" id="1_ekrgt"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_dkt7w"]
-
 [node name="step01" type="Node3D" unique_id=1599717581]
 script = ExtResource("1_ekrgt")
-
-[node name="Label" type="Label" parent="." unique_id=1110306027]
-offset_right = 40.0
-offset_bottom = 23.0
-text = "wasdasdasd"
-label_settings = SubResource("LabelSettings_dkt7w")
-horizontal_alignment = 1
-vertical_alignment = 1

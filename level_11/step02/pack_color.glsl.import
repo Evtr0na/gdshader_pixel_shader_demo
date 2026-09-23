@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://yewjayhdls46"
+path="res://.godot/imported/pack_color.glsl-fc03b9dd424bac5bcd699691eea36479.res"
+
+[deps]
+
+source_file="res://level_11/step02/pack_color.glsl"
+dest_files=["res://.godot/imported/pack_color.glsl-fc03b9dd424bac5bcd699691eea36479.res"]
+
+[params]
+

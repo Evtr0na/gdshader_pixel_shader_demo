@@ -43,14 +43,59 @@ const TEST_COLORS: Array[Color] = [
 var capture_viewports: Array[SubViewport] = []
 var capture_cameras: Array[Camera3D] = []
 
+var rd:RenderingDevice
+
+var atlas_rid := RID()
+var atlas_texture: Texture2DRD # 用于将底层资源给上层节点看的
+
+var capture_effects:Array[PracticeCaptureColorEffect] = []
 
 func _ready() -> void:
-	_create_environment()
-	_create_test_objects()
-	_create_main_camera()
-	_create_capture_cameras()
-	_create_debug_ui()
 
+	_create_environment()
+
+	_create_test_objects()
+
+	_create_main_camera()
+	
+	_create_atlas()
+
+	_create_capture_cameras()
+
+	_create_atlas_debug_ui()
+
+	# _create_debug_ui()
+
+
+func _create_atlas()->void:
+
+	rd = RenderingServer.get_rendering_device()
+	
+	if rd == null:
+		push_error("RenderingDevice unavailable")
+		return
+
+	var format := RDTextureFormat.new()
+
+	format.texture_type = RenderingDevice.TEXTURE_TYPE_2D
+
+	format.format = (RenderingDevice.DATA_FORMAT_R16G16B16A16_SFLOAT)
+
+	format.width = CAPTURE_RESOLUTION * 3
+	format.height = CAPTURE_RESOLUTION * 2 
+
+	format.depth = 1 #仅1，非3d体纹理
+	format.array_layers = 1#仅1，非纹理数组
+	format.mipmaps = 1
+
+	format.samples = RenderingDevice.TEXTURE_SAMPLES_1 #单采样
+
+	format.usage_bits = (
+		RenderingDevice.TEXTURE_USAGE_SAMPLING_BIT #shader 可以用`texture()`采样读取（只读采样）
+		| RenderingDevice.TEXTURE_USAGE_STORAGE_BIT #可以作为 storage image，compute shader 用`imageLoad/imageStore`读写
+		| RenderingDevice.TEXTURE_USAGE_CAN_COPY_TO_BIT #允许**拷贝数据到这个纹理**（GPU 内部拷贝写入）
+		| RenderingDevice.TEXTURE_USAGE_CAN_COPY_FROM_BIT #允许**从这个纹理拷贝出去**（GPU 内部拷贝读出）
+		)
 
 func _create_environment() -> void:
 	var environment := Environment.new()
